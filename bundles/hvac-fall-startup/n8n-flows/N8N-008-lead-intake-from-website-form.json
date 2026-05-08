@@ -1,0 +1,223 @@
+{
+  "name": "Lead Intake from Website Form",
+  "id": "N8N-008",
+  "version": "1.0.0",
+  "vertical": "HVAC",
+  "description": "Automated workflow for Lead Intake from Website Form in the HVAC vertical. Handles end-to-end processing with validation, transformation, notification, and logging.",
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "timezone": "America/Chicago",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": true
+  },
+  "nodes": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {
+        "path": "lead-intake-from-website-form",
+        "responseMode": "responseNode",
+        "authentication": "none",
+        "httpMethod": "POST",
+        "responseContentType": "application/json"
+      }
+    },
+    {
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "functionCode": "// Validate incoming payload\nconst required = ['clientId', 'timestamp', 'action', 'payload'];\nconst missing = [];\nfor (const field of required) {\n  if (!item.json[field]) missing.push(field);\n}\nif (missing.length > 0) {\n  throw new Error('Missing required fields: ' + missing.join(', '));\n}\nconst ts = new Date(item.json.timestamp);\nif (isNaN(ts.getTime())) throw new Error('Invalid timestamp');\nconst allowed = ['create', 'update', 'delete', 'query', 'process'];\nif (!allowed.includes(item.json.action)) {\n  throw new Error('Invalid action: ' + item.json.action);\n}\nreturn item;"
+      }
+    },
+    {
+      "name": "Log Entry",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "functionCode": "// Log workflow entry\nconst logEntry = {\n  workflow: \"Lead Intake from Website Form\",\n  workflowId: \"N8N-008\",\n  clientId: item.json.clientId,\n  action: item.json.action,\n  timestamp: new Date().toISOString(),\n  nodeVersion: '1.0.0',\n  environment: process.env.NODE_ENV || 'production',\n  correlationId: item.json.correlationId || crypto.randomUUID(),\n};\nconsole.log('[Workflow Start]', JSON.stringify(logEntry));\nitem.json._logEntry = logEntry;\nreturn item;"
+      }
+    },
+    {
+      "name": "Process Data",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "functionCode": "// Core processing logic\nconst { clientId, action, payload, _logEntry } = item.json;\nlet result;\nswitch (action) {\n  case 'create':\n    result = { status: 'created', id: crypto.randomUUID(), data: payload };\n    break;\n  case 'update':\n    result = { status: 'updated', id: payload.id || clientId, changes: payload };\n    break;\n  case 'delete':\n    result = { status: 'deleted', id: payload.id || clientId };\n    break;\n  case 'query':\n    result = { status: 'queried', filters: payload, timestamp: new Date().toISOString() };\n    break;\n  default:\n    result = { status: 'processed', workflow: \"Lead Intake from Website Form\", processedAt: new Date().toISOString(), clientId, correlationId: _logEntry.correlationId };\n}\nreturn { json: { ...result, _logEntry } };"
+      }
+    },
+    {
+      "name": "Data Enrichment",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "functionCode": "// Enrich with business context\nconst enriched = {\n  ...item.json,\n  enrichedAt: new Date().toISOString(),\n  businessHours: (() => {\n    const h = new Date().getHours();\n    const d = new Date().getDay();\n    return d >= 1 && d <= 5 && h >= 8 && h <= 18;\n  })(),\n  fiscalQuarter: Math.ceil((new Date().getMonth() + 1) / 3),\n  processingDuration: Date.now() - new Date(item.json._logEntry.timestamp).getTime(),\n  retryCount: 0,\n  slaStatus: 'within_target',\n};\nreturn { json: enriched };"
+      }
+    },
+    {
+      "name": "Notify Stakeholders",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "fromEmail": "workflows@verticalplaybook.com",
+        "toEmail": "={{$node[\"Trigger\"].json.stakeholderEmail}}",
+        "subject": "[VerticalPlaybook] Lead Intake from Website Form — Action Completed",
+        "text": "The workflow \"Lead Intake from Website Form\" has completed for client {{$node[\"Trigger\"].json.clientId}}.",
+        "options": {
+          "appendAttribution": false
+        }
+      }
+    },
+    {
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "position": [
+        1250,
+        400
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "channel": "#operations",
+        "text": ":white_check_mark: Workflow \"Lead Intake from Website Form\" completed for client {{$node[\"Trigger\"].json.clientId}}",
+        "otherOptions": {
+          "username": "VerticalPlaybook Bot"
+        }
+      }
+    },
+    {
+      "name": "Log & Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        1450,
+        300
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"success\":true,\"workflow\":\"Lead Intake from Website Form\"}",
+        "responseCode": 200
+      }
+    },
+    {
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        250,
+        500
+      ],
+      "parameters": {
+        "functionCode": "// Global error handler\nconst error = {\n  workflow: \"Lead Intake from Website Form\",\n  workflowId: \"N8N-008\",\n  errorMessage: $input.first().json.message || 'Unknown error',\n  timestamp: new Date().toISOString(),\n  nodeVersion: '1.0.0',\n};\nconsole.error('[Workflow Error]', JSON.stringify(error));\nreturn { json: error };"
+      }
+    }
+  ],
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Log Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Entry": {
+      "main": [
+        [
+          {
+            "node": "Process Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Data": {
+      "main": [
+        [
+          {
+            "node": "Data Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Enrichment": {
+      "main": [
+        [
+          {
+            "node": "Notify Stakeholders",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Stakeholders": {
+      "main": [
+        [
+          {
+            "node": "Log & Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Notification": {
+      "main": [
+        [
+          {
+            "node": "Log & Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler": {
+      "main": [
+        []
+      ]
+    }
+  }
+}

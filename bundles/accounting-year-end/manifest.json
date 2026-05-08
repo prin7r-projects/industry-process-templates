@@ -1,0 +1,30 @@
+{
+  "slug": "accounting-year-end",
+  "vertical": "Accounting",
+  "name": "Accounting Year-End Close Cadence",
+  "version": "1.0.0",
+  "description": "Year-end close and compliance cadence for accounting firms. Covers trial balance review, adjusting entries, tax prep handoff, financial statement preparation, and client deliverable packaging. Designed for firms with 2-50 staff serving small-to-midmarket clients.",
+  "pricing": {
+    "single": 249,
+    "verticalPack": 499,
+    "reseller": 1490
+  },
+  "contents": {
+    "sops": 19,
+    "automations": 8,
+    "n8nFlows": 5,
+    "promptPacks": 5
+  },
+  "targetRoles": [
+    "Firm Partner",
+    "Senior Accountant",
+    "Staff Accountant",
+    "Tax Preparer"
+  ],
+  "estimatedTimeToDeploy": "2-4 weeks",
+  "prerequisites": [
+    "n8n self-hosted or cloud instance",
+    "QuickBooks Online or Xero",
+    "Microsoft Excel or Google Sheets"
+  ]
+}

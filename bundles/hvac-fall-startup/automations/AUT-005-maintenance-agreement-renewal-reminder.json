@@ -1,0 +1,56 @@
+{
+  "name": "Maintenance Agreement Renewal Reminder",
+  "id": "AUT-005",
+  "version": "1.0.0",
+  "vertical": "HVAC",
+  "trigger": {
+    "type": "schedule",
+    "description": "Triggers when conditions for \"Maintenance Agreement Renewal Reminder\" are met.",
+    "schedule": "0 8 * * 1-5",
+    "webhookPath": null
+  },
+  "actions": [
+    {
+      "order": 1,
+      "type": "notification",
+      "target": "assigned_user",
+      "template": "Automation \"Maintenance Agreement Renewal Reminder\" has been triggered."
+    },
+    {
+      "order": 2,
+      "type": "task_create",
+      "target": "project_management",
+      "template": "Complete action for: Maintenance Agreement Renewal Reminder",
+      "assignee": "role:operator",
+      "dueInHours": 24
+    },
+    {
+      "order": 3,
+      "type": "log_event",
+      "target": "audit_log",
+      "data": {
+        "automation": "Maintenance Agreement Renewal Reminder",
+        "timestamp": "{{trigger.timestamp}}",
+        "triggeredBy": "{{trigger.source}}"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "field": "business_hours",
+      "operator": "equals",
+      "value": true
+    },
+    {
+      "field": "client_active",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "errorHandling": {
+    "retryCount": 3,
+    "retryDelayMinutes": 5,
+    "escalationEmail": "ops@company.com",
+    "fallbackAction": "create_manual_task"
+  }
+}

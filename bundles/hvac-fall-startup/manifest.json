@@ -1,0 +1,30 @@
+{
+  "slug": "hvac-fall-startup",
+  "vertical": "HVAC",
+  "name": "HVAC Fall Startup Playbook",
+  "version": "1.0.0",
+  "description": "Complete fall-season startup playbook for HVAC contractors. Covers equipment inspection, scheduling optimization, customer communication, seasonal maintenance workflows, and crew readiness. Designed for residential and light commercial HVAC businesses with 3-25 technicians.",
+  "pricing": {
+    "single": 249,
+    "verticalPack": 499,
+    "reseller": 1490
+  },
+  "contents": {
+    "sops": 28,
+    "automations": 14,
+    "n8nFlows": 9,
+    "promptPacks": 4
+  },
+  "targetRoles": [
+    "HVAC Business Owner",
+    "Service Manager",
+    "Dispatch Coordinator",
+    "Lead Technician"
+  ],
+  "estimatedTimeToDeploy": "2-4 weeks",
+  "prerequisites": [
+    "n8n self-hosted or cloud instance",
+    "Google Workspace or Microsoft 365",
+    "CRM with API access (optional)"
+  ]
+}

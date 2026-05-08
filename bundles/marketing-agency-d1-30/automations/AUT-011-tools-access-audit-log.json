@@ -1,0 +1,56 @@
+{
+  "name": "Tools Access Audit Log",
+  "id": "AUT-011",
+  "version": "1.0.0",
+  "vertical": "Marketing Agency",
+  "trigger": {
+    "type": "form_submission",
+    "description": "Triggers when conditions for \"Tools Access Audit Log\" are met.",
+    "schedule": null,
+    "webhookPath": null
+  },
+  "actions": [
+    {
+      "order": 1,
+      "type": "notification",
+      "target": "assigned_user",
+      "template": "Automation \"Tools Access Audit Log\" has been triggered."
+    },
+    {
+      "order": 2,
+      "type": "task_create",
+      "target": "project_management",
+      "template": "Complete action for: Tools Access Audit Log",
+      "assignee": "role:operator",
+      "dueInHours": 24
+    },
+    {
+      "order": 3,
+      "type": "log_event",
+      "target": "audit_log",
+      "data": {
+        "automation": "Tools Access Audit Log",
+        "timestamp": "{{trigger.timestamp}}",
+        "triggeredBy": "{{trigger.source}}"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "field": "business_hours",
+      "operator": "equals",
+      "value": true
+    },
+    {
+      "field": "client_active",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "errorHandling": {
+    "retryCount": 3,
+    "retryDelayMinutes": 5,
+    "escalationEmail": "ops@company.com",
+    "fallbackAction": "create_manual_task"
+  }
+}

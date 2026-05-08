@@ -1,0 +1,30 @@
+{
+  "slug": "marketing-agency-d1-30",
+  "vertical": "Marketing Agency",
+  "name": "Marketing Agency D1-30 Client Onboarding",
+  "version": "1.0.0",
+  "description": "First 30 days client onboarding system for marketing agencies. Covers discovery, strategy development, asset collection, campaign setup, reporting cadence, and QBR preparation. Built for agencies with 5-50 clients across SEO, PPC, social, and content retainers.",
+  "pricing": {
+    "single": 249,
+    "verticalPack": 499,
+    "reseller": 1490
+  },
+  "contents": {
+    "sops": 22,
+    "automations": 12,
+    "n8nFlows": 7,
+    "promptPacks": 3
+  },
+  "targetRoles": [
+    "Agency Owner",
+    "Account Manager",
+    "Onboarding Specialist",
+    "Creative Director"
+  ],
+  "estimatedTimeToDeploy": "2-3 weeks",
+  "prerequisites": [
+    "n8n self-hosted or cloud instance",
+    "Google Workspace or Microsoft 365",
+    "Project management tool (Asana, ClickUp, or Monday.com)"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Missing Document Client Reminder",
+  "id": "AUT-002",
+  "version": "1.0.0",
+  "vertical": "Accounting",
+  "trigger": {
+    "type": "webhook",
+    "description": "Triggers when conditions for \"Missing Document Client Reminder\" are met.",
+    "schedule": null,
+    "webhookPath": "/api/automations/missing-document-client-reminder"
+  },
+  "actions": [
+    {
+      "order": 1,
+      "type": "notification",
+      "target": "assigned_user",
+      "template": "Automation \"Missing Document Client Reminder\" has been triggered."
+    },
+    {
+      "order": 2,
+      "type": "task_create",
+      "target": "project_management",
+      "template": "Complete action for: Missing Document Client Reminder",
+      "assignee": "role:operator",
+      "dueInHours": 24
+    },
+    {
+      "order": 3,
+      "type": "log_event",
+      "target": "audit_log",
+      "data": {
+        "automation": "Missing Document Client Reminder",
+        "timestamp": "{{trigger.timestamp}}",
+        "triggeredBy": "{{trigger.source}}"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "field": "business_hours",
+      "operator": "equals",
+      "value": true
+    },
+    {
+      "field": "client_active",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "errorHandling": {
+    "retryCount": 3,
+    "retryDelayMinutes": 5,
+    "escalationEmail": "ops@company.com",
+    "fallbackAction": "create_manual_task"
+  }
+}

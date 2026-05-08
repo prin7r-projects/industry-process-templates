@@ -1,0 +1,56 @@
+{
+  "name": "Google Review Request After Service",
+  "id": "AUT-007",
+  "version": "1.0.0",
+  "vertical": "HVAC",
+  "trigger": {
+    "type": "form_submission",
+    "description": "Triggers when conditions for \"Google Review Request After Service\" are met.",
+    "schedule": null,
+    "webhookPath": null
+  },
+  "actions": [
+    {
+      "order": 1,
+      "type": "notification",
+      "target": "assigned_user",
+      "template": "Automation \"Google Review Request After Service\" has been triggered."
+    },
+    {
+      "order": 2,
+      "type": "task_create",
+      "target": "project_management",
+      "template": "Complete action for: Google Review Request After Service",
+      "assignee": "role:operator",
+      "dueInHours": 24
+    },
+    {
+      "order": 3,
+      "type": "log_event",
+      "target": "audit_log",
+      "data": {
+        "automation": "Google Review Request After Service",
+        "timestamp": "{{trigger.timestamp}}",
+        "triggeredBy": "{{trigger.source}}"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "field": "business_hours",
+      "operator": "equals",
+      "value": true
+    },
+    {
+      "field": "client_active",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "errorHandling": {
+    "retryCount": 3,
+    "retryDelayMinutes": 5,
+    "escalationEmail": "ops@company.com",
+    "fallbackAction": "create_manual_task"
+  }
+}
