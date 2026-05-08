@@ -6,7 +6,7 @@
 
 ## Slide 1 — Title
 
-**Plumbline**
+**VerticalPlaybook**
 *Operational architecture for the verticals that build the world.*
 
 A marketplace of vertical-specific operational bundles — SOPs, automations, n8n flows, prompt packs — calibrated by industry, deployable in a day.
@@ -35,13 +35,13 @@ The COO of a $14M HVAC business spends every Saturday morning thinking she shoul
 
 Senior operators in HVAC know the same 28 SOPs matter. The same dispatch ratios. The same 9 n8n flows. The market today forces every operator to discover them privately.
 
-Plumbline's insight: **package the shared work as deployable artifacts, sell to the operators who would otherwise rebuild it from scratch.**
+VerticalPlaybook's insight: **package the shared work as deployable artifacts, sell to the operators who would otherwise rebuild it from scratch.**
 
 ---
 
 ## Slide 4 — The product
 
-**Plumbline ships vertical-specific operational bundles.**
+**VerticalPlaybook ships vertical-specific operational bundles.**
 
 Each bundle includes:
 - 24-32 SOPs (markdown, diffable)
@@ -119,8 +119,8 @@ Target: >60% of buyers from non-paid channels by day-90.
 
 - The 7 launch verticals all have mature SaaS stacks (ServiceTitan, Dentrix, QuickBooks, Shopify, etc.) — automation glue points are stable.
 - n8n adoption in mid-market ops crossed the chasm in 2025; bundle artifacts are now portable across self-hosted, cloud, and managed runtimes.
-- LLM-augmented operations is real but requires *vetted prompt packs*, not free-form prompting — Plumbline ships the vetted packs.
-- Mid-market COOs in 2026 are budget-allocated for "ops AI" but unable to evaluate it; Plumbline gives them a $1,490 entry point that produces visible output by Friday.
+- LLM-augmented operations is real but requires *vetted prompt packs*, not free-form prompting — VerticalPlaybook ships the vetted packs.
+- Mid-market COOs in 2026 are budget-allocated for "ops AI" but unable to evaluate it; VerticalPlaybook gives them a $1,490 entry point that produces visible output by Friday.
 
 ---
 

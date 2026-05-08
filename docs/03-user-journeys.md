@@ -2,9 +2,9 @@
 
 Three primary journeys covering discovery → first value → recurring use.
 
-## Journey A — Maren the COO discovers Plumbline via a peer recommendation
+## Journey A — Maren the COO discovers VerticalPlaybook via a peer recommendation
 
-**Context.** Tuesday afternoon, Maren's CEO forwards a tweet thread from a sister-company COO who just bought a Plumbline HVAC bundle. CEO's question: "Should we get one of these for our dispatch ops?"
+**Context.** Tuesday afternoon, Maren's CEO forwards a tweet thread from a sister-company COO who just bought a VerticalPlaybook HVAC bundle. CEO's question: "Should we get one of these for our dispatch ops?"
 
 **Steps.**
 1. Maren opens the link from her phone during her commute. Reads the hero on mobile. The "operational system you wish came in the box" line sticks; she screenshots it for later.
@@ -20,7 +20,7 @@ Three primary journeys covering discovery → first value → recurring use.
 
 ## Journey B — Yusuf the Agency Principal arrives via Twitter/X
 
-**Context.** Saturday morning. Yusuf scrolls X and sees a thread from an agency owner he respects: "Just bought the Plumbline marketing-agency bundle. 9 n8n flows wired in 90 minutes. Worth every $." Link.
+**Context.** Saturday morning. Yusuf scrolls X and sees a thread from an agency owner he respects: "Just bought the VerticalPlaybook marketing-agency bundle. 9 n8n flows wired in 90 minutes. Worth every $." Link.
 
 **Steps.**
 1. Clicks through. Opens hero on desktop. The hero blueprint figure is a real SOP excerpt from the marketing-agency bundle — the one for "Client onboarding day-1 to day-30." He recognizes it immediately as the one he's been meaning to write.
@@ -36,7 +36,7 @@ Three primary journeys covering discovery → first value → recurring use.
 
 ## Journey C — Recurring use, Vertical Pack subscriber
 
-**Context.** Maren three months after her initial purchase. The HVAC bundle has paid for itself 4× over — her dispatch SLA dropped from 4 hours to 90 minutes. She gets an email: "Plumbline HVAC Bundle v2.1 published — 3 new SOPs, n8n flow updates for the new ServiceTitan API."
+**Context.** Maren three months after her initial purchase. The HVAC bundle has paid for itself 4× over — her dispatch SLA dropped from 4 hours to 90 minutes. She gets an email: "VerticalPlaybook HVAC Bundle v2.1 published — 3 new SOPs, n8n flow updates for the new ServiceTitan API."
 
 **Steps.**
 1. Maren clicks the email. Lands on the bundle changelog page (Wave 3 — for v1, the FAQ entry says updates ship every quarter).

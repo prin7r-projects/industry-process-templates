@@ -2,7 +2,7 @@
 
 ## Stance
 
-The 90-day plan is built around proving Plumbline's three economic premises:
+The 90-day plan is built around proving VerticalPlaybook's three economic premises:
 
 1. **A vertical-specific bundle outperforms a generic templates pack on conversion at price.** Goal: $1,490 ASP at 2-3% CVR from qualified-traffic landing pages.
 2. **Peer-to-peer referral is the dominant channel.** Goal: >60% of buyers in days 60-90 come from non-paid channels.
@@ -16,7 +16,7 @@ The plan is sequenced so that paid channels prove unit economics first, then pee
 
 - **Mon.** Landing live at `industry-process-templates.prin7r.com`. NOWPayments hosted-invoice CTA verified end-to-end (live unpaid invoice).
 - **Tue.** First bundle (HVAC) frozen at v1.0. Authoring continues for marketing-agency, accounting-firm.
-- **Wed.** Plumbline Twitter/X account set up; first post = HVAC Fall Startup Checklist excerpt.
+- **Wed.** VerticalPlaybook Twitter/X account set up; first post = HVAC Fall Startup Checklist excerpt.
 - **Thu.** First COOAlliance newsletter sponsorship paid for, scheduled for Wk-3 send.
 - **Fri.** "First 5 referrals" outreach to 5 peer COOs in the founder's network. Comp: free Single Bundle for honest review.
 
@@ -112,7 +112,7 @@ The plan is sequenced so that paid channels prove unit economics first, then pee
 
 - **Mon.** First Vertical Pack with quarterly office-hour invitation goes out (delayed Q3 cadence).
 - **Tue-Wed.** Refine the highest-converting sample SOPs based on 12 weeks of attribution.
-- **Thu.** First "Plumbline Vertical Reports" newsletter goes out (content compounding asset).
+- **Thu.** First "VerticalPlaybook Vertical Reports" newsletter goes out (content compounding asset).
 - **Fri.** 90-day recap. Decide which vertical(s) to deepen with sub-bundles; decide whether to add an 8th vertical.
 
 **Deliverable.** 90-day retrospective; year-1 plan drafted.

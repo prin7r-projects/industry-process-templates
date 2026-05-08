@@ -30,7 +30,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://industry-process-templates.prin7r.com"),
-  title: "Plumbline — vertical-specific operational bundles",
+  title: "VerticalPlaybook — vertical-specific operational bundles",
   description:
     "The operational system you wish came in the box. SOPs, automations, n8n flows, and prompt packs — calibrated for HVAC, dental, accounting, DTC ecommerce, brokerage, SaaS support, and marketing-agency operators. Drops into your stack inside a day.",
   keywords: [
@@ -43,16 +43,16 @@ export const metadata: Metadata = {
     "agency operating system",
   ],
   openGraph: {
-    title: "Plumbline — operational bundles, calibrated by vertical",
+    title: "VerticalPlaybook — operational bundles, calibrated by vertical",
     description:
       "Pick your vertical. Get 24-32 SOPs, 12-16 automations, 9 n8n flows, and 3-5 prompt packs — calibrated for your industry's real operators. You'll be running it by Friday.",
     type: "website",
     url: "https://industry-process-templates.prin7r.com",
-    siteName: "Plumbline",
+    siteName: "VerticalPlaybook",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Plumbline — operational bundles, calibrated by vertical",
+    title: "VerticalPlaybook — operational bundles, calibrated by vertical",
     description:
       "Vertical-specific operational bundles for HVAC, dental, accounting, DTC, brokerage, SaaS support, and marketing agencies. Drops into your stack inside a day.",
   },

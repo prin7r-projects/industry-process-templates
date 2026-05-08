@@ -58,9 +58,9 @@ The current alternatives for getting a working operational system into a vertica
 
 **Root cause.** Operations is shared work. Building privately is rebuilding from zero — the curve never bends.
 
-## What Plumbline does differently
+## What VerticalPlaybook does differently
 
-| Failure mode | Plumbline mechanism |
+| Failure mode | VerticalPlaybook mechanism |
 |---|---|
 | Generic, not vertical-specific | One bundle per vertical, written by an operating expert in that vertical with a real reference business pinned. |
 | No automation glue | Bundle includes 9-14 n8n flows + automation scripts, not just docs. |
@@ -70,7 +70,7 @@ The current alternatives for getting a working operational system into a vertica
 | No shared learning | Operator buyers can submit edge-case PRs back to the bundle (Wave 3); the curve bends across all buyers in a vertical. |
 | Wrong-vertical fit | Each bundle has a precise "fits if" definition (e.g. "$2M-$25M residential HVAC, 5-30 trucks") so buyers self-qualify before paying. |
 
-## What Plumbline does *not* solve
+## What VerticalPlaybook does *not* solve
 
 - *Strategy.* Bundles are operational, not strategic. They tell you how to run a dispatch shift, not whether to enter a new market.
 - *Hiring.* Bundles include role-by-role responsibility maps but do not source candidates.

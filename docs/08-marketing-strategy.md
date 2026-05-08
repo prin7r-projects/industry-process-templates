@@ -2,7 +2,7 @@
 
 ## Positioning
 
-Plumbline is **the operational system you wish came in the box.** A vertical-specific bundle of SOPs, automations, n8n flows, and prompt packs — calibrated for one industry, ready to deploy in a day, written by an operating expert in your vertical.
+VerticalPlaybook is **the operational system you wish came in the box.** A vertical-specific bundle of SOPs, automations, n8n flows, and prompt packs — calibrated for one industry, ready to deploy in a day, written by an operating expert in your vertical.
 
 We are not:
 - a templates marketplace (we are vertical, they are generic)
@@ -62,7 +62,7 @@ Long-form posts walking through one vertical's actual operating cadence — what
 
 ### Pillar 3 — Builder behind-the-scenes (15%)
 
-How Plumbline writes its bundles. Who the operators are. What the v2.1 process looks like. Goal: build trust with the small percentage of buyers who care about the *process* behind the artifacts. Quiet, secondary.
+How VerticalPlaybook writes its bundles. Who the operators are. What the v2.1 process looks like. Goal: build trust with the small percentage of buyers who care about the *process* behind the artifacts. Quiet, secondary.
 
 **Cadence.** 1 per month.
 
@@ -96,7 +96,7 @@ These are the actual strings used on the landing. Each is hand-tuned for the bra
 | Pricing tier 3 trail | 5-10 bundles. Three-week embedded deploy. |
 | Pricing CTA | Buy with NOWPayments |
 | FAQ heading | Frequently asked. |
-| Footer plate caption | Plumbline · Operational architecture for the verticals that build the world · Prin7r 2026 |
+| Footer plate caption | VerticalPlaybook · Operational architecture for the verticals that build the world · Prin7r 2026 |
 
 ## Channels — see `06-sales-channels.md`
 

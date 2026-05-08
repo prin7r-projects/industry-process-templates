@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   const secret = optionalEnv("NOWPAYMENTS_IPN_SECRET");
 
   if (!secret) {
-    console.error("[PLUMBLINE_WEBHOOK] NOWPAYMENTS_IPN_SECRET not configured; refusing to accept IPN");
+    console.error("[VERTICALPLAYBOOK_WEBHOOK] NOWPAYMENTS_IPN_SECRET not configured; refusing to accept IPN");
     return NextResponse.json({ ok: false, error: "not-configured" }, { status: 503 });
   }
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
   if (!verified) {
     console.warn(
-      `[PLUMBLINE_WEBHOOK] verify_failed payment_id=${payload.payment_id ?? "?"} status=${payload.payment_status ?? "?"}`,
+      `[VERTICALPLAYBOOK_WEBHOOK] verify_failed payment_id=${payload.payment_id ?? "?"} status=${payload.payment_status ?? "?"}`,
     );
     return NextResponse.json({ ok: false, error: "verify_failed" }, { status: 401 });
   }
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   const status = typeof payload.payment_status === "string" ? payload.payment_status : "unknown";
 
   console.log(
-    `[PLUMBLINE_WEBHOOK] verified order=${orderId} status=${status} amount=${payload.price_amount ?? "?"}${payload.price_currency ?? ""}`,
+    `[VERTICALPLAYBOOK_WEBHOOK] verified order=${orderId} status=${status} amount=${payload.price_amount ?? "?"}${payload.price_currency ?? ""}`,
   );
 
   return NextResponse.json({

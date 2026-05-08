@@ -51,7 +51,7 @@ export function SiteFooter() {
         <div className="border-t border-rule pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <Wordmark size="sm" />
           <p className="plate-caption">
-            PLUMBLINE · OPERATIONAL ARCHITECTURE FOR THE VERTICALS THAT BUILD THE WORLD · PRIN7R 2026
+            VERTICALPLAYBOOK · OPERATIONAL ARCHITECTURE FOR THE VERTICALS THAT BUILD THE WORLD · PRIN7R 2026
           </p>
         </div>
       </div>

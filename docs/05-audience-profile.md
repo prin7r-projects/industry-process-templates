@@ -2,7 +2,7 @@
 
 ## ICP — Ideal Customer Profile
 
-**Plumbline's ICP is a $2M–$50M operating business in a defined vertical, with one operator (founder, COO, or agency principal) actively trying to build a coherent operational system, who has a budget line for ops tools but not for a $250k full-time COO hire, and who already pays for at least one SaaS automation tool (n8n, Make, Zapier).**
+**VerticalPlaybook's ICP is a $2M–$50M operating business in a defined vertical, with one operator (founder, COO, or agency principal) actively trying to build a coherent operational system, who has a budget line for ops tools but not for a $250k full-time COO hire, and who already pays for at least one SaaS automation tool (n8n, Make, Zapier).**
 
 Concretely:
 
@@ -62,7 +62,7 @@ Concretely:
 **Goals.**
 - Productize his proven internal playbooks into retainer add-ons
 - Reduce delivery cost variance across clients (currently 2-4× spread)
-- Ship a "Plumbline-grade" operating system as a marketing differentiator vs. competitors
+- Ship a "VerticalPlaybook-grade" operating system as a marketing differentiator vs. competitors
 
 **Frustrations.**
 - His own team built ops in flight; nothing is written down
@@ -76,7 +76,7 @@ Concretely:
 - Podcasts: Agency Profit, Built Ground Up
 
 **Buying triggers.**
-- A peer he respects publicly bought a Plumbline bundle
+- A peer he respects publicly bought a VerticalPlaybook bundle
 - A bundle excerpt he sees that's better than what his own team is doing
 - A Q4 reset moment ("this is the year I productize")
 
@@ -98,7 +98,7 @@ A side-hustler with no team, no recurring revenue, no automation tools paid for.
 
 A 1,000+ person business with a procurement team, a $50k+ purchase order requirement, vendor security review, SOC2 questionnaire, contract redlining.
 
-**Why we exclude them.** Plumbline's mode is self-serve at $1,490 sticker. We do not have legal, compliance, or sales-engineering capacity to respond to enterprise procurement. Wave 4 may add an Enterprise tier; for v1 we politely decline.
+**Why we exclude them.** VerticalPlaybook's mode is self-serve at $1,490 sticker. We do not have legal, compliance, or sales-engineering capacity to respond to enterprise procurement. Wave 4 may add an Enterprise tier; for v1 we politely decline.
 
 ### Anti-persona 3 — The "AI consultant" reseller
 

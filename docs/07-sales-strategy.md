@@ -2,7 +2,7 @@
 
 ## Sales motion
 
-**Hybrid PLG with a low-friction self-serve floor.** Plumbline's sales motion is buyer-driven from $249 (single bundle) up through $1,490 (Vertical Pack). Above $9,800 (Enterprise) we step into a sales-led conversation, but Wave 2 ships only the self-serve tiers. Crypto checkout via NOWPayments handles the entire transaction; no human in the loop.
+**Hybrid PLG with a low-friction self-serve floor.** VerticalPlaybook's sales motion is buyer-driven from $249 (single bundle) up through $1,490 (Vertical Pack). Above $9,800 (Enterprise) we step into a sales-led conversation, but Wave 2 ships only the self-serve tiers. Crypto checkout via NOWPayments handles the entire transaction; no human in the loop.
 
 This works because:
 - The buyer pre-qualifies themselves through the vertical-fit definitions on the landing.
@@ -21,7 +21,7 @@ One bundle for one vertical. Buyer chooses 1 vertical at checkout. Includes:
 - 12 months of bundle updates (quarterly cadence)
 - Email-only support, 72-hour response
 
-**Best for.** First-time buyers who want to evaluate Plumbline with a single bundle before committing to a vertical pack.
+**Best for.** First-time buyers who want to evaluate VerticalPlaybook with a single bundle before committing to a vertical pack.
 
 **Limits.** One vertical only. Single-implementation license — bundle artifacts cannot be redistributed, resold, or repackaged. Buyer's own teams may use the bundle freely within the buyer's own business.
 
@@ -30,7 +30,7 @@ One bundle for one vertical. Buyer chooses 1 vertical at checkout. Includes:
 Three bundles within a single vertical theme. (E.g. Real-estate brokerage = "Residential brokerage" + "Commercial brokerage" + "Property management" bundles.) Includes:
 - Everything in Single Bundle ×3
 - Cross-bundle integration playbook (how the 3 bundles compose)
-- Quarterly group office-hour with Plumbline-grade operators in the vertical
+- Quarterly group office-hour with VerticalPlaybook-grade operators in the vertical
 - Priority support, 24-hour response
 
 **Best for.** Operators with conviction on their vertical who want the full operational stack.
@@ -41,7 +41,7 @@ Three bundles within a single vertical theme. (E.g. Real-estate brokerage = "Res
 
 Custom bundle suite plus white-glove onboarding. Includes:
 - 5-10 bundles selected jointly with the buyer
-- 3-week white-glove deployment with a Plumbline-grade operator embedded
+- 3-week white-glove deployment with a VerticalPlaybook-grade operator embedded
 - 12 months of priority support, 8-hour response
 - Bundle co-authoring rights (buyer can request 1 net-new bundle scoped together)
 - License: organizational seat, multiple geographies of single legal entity
@@ -61,7 +61,7 @@ Custom bundle suite plus white-glove onboarding. Includes:
 | Objection | Response |
 |---|---|
 | "How is this different from a $99 Notion templates bundle?" | "Each bundle is one vertical, written by an operating expert in that vertical, with real n8n flows you can import — not just docs. The Notion templates you're thinking of are generic and read-only. We can't compete on the $99 mark; we don't try to." |
-| "I'm not sure my vertical is here." | "Each vertical has a precise fit definition — e.g. HVAC = '$2M-$25M residential, 5-30 trucks.' If your business doesn't match, the bundle won't help. Email us at hello@plumbline — we have 4 more verticals coming in Q3." |
+| "I'm not sure my vertical is here." | "Each vertical has a precise fit definition — e.g. HVAC = '$2M-$25M residential, 5-30 trucks.' If your business doesn't match, the bundle won't help. Email us at hello@verticalplaybook.com — we have 4 more verticals coming in Q3." |
 | "What's your refund policy?" | "30-day no-questions refund on the single bundle and Vertical Pack. We process the refund as a NOWPayments stablecoin reversal to the same wallet you paid from." |
 | "Can I resell adapted versions to my clients?" | "If you're an agency principal: yes, you can use bundle-derived SOPs in your own client engagements. You cannot redistribute the bundle artifacts directly. We're working on a Reseller tier for Wave 4 that simplifies this." |
 | "What about ongoing updates?" | "Quarterly bundle updates, included free for 12 months from purchase. After 12 months, $190/yr renewal for ongoing updates." |
@@ -78,7 +78,7 @@ Custom bundle suite plus white-glove onboarding. Includes:
 For Enterprise inquiries, the conversation runs:
 
 1. **Discovery (45 min).** Understand the buyer's vertical, scale, current operating maturity, integration constraints (existing n8n / Make / Zapier / custom).
-2. **Bundle selection (1 week).** Plumbline operations team scopes which 5-10 bundles fit. Sends a precise scope doc + price ($9,800 standard; quoted higher if scope expands).
+2. **Bundle selection (1 week).** VerticalPlaybook operations team scopes which 5-10 bundles fit. Sends a precise scope doc + price ($9,800 standard; quoted higher if scope expands).
 3. **Procurement (varies).** Standard MSA + SoW. We have a 4-page template; we do not redline beyond reasonable customer redlines.
 4. **Deployment kickoff.** 3 weeks, embedded operator. Weekly checkpoint.
 5. **Handoff.** Bundle suite live in buyer's stack, support transition documented, support contact established.

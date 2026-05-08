@@ -38,7 +38,7 @@ export function Pricing() {
         ...prev,
         [tier.id]: {
           loading: false,
-          error: data.message ?? "Checkout couldn't start. Please try again or email hello@plumbline.",
+          error: data.message ?? "Checkout couldn't start. Please try again or email hello@verticalplaybook.",
         },
       }));
     } catch (e) {

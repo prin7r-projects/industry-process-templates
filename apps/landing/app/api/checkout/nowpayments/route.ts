@@ -25,9 +25,9 @@ export async function POST(request: Request) {
 
   const tier = tierFromId(body.tierId) ?? tiers[0];
   const baseUrl = appUrlFromRequest(request);
-  const orderId = `plumbline_${tier.id}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+  const orderId = `verticalplaybook_${tier.id}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
   const verticalLabel = body.vertical ? ` — ${body.vertical}` : "";
-  const description = `Plumbline ${tier.name}${verticalLabel}`;
+  const description = `VerticalPlaybook ${tier.name}${verticalLabel}`;
 
   try {
     const apiKey = requiredEnv("NOWPAYMENTS_API_KEY");
@@ -66,13 +66,13 @@ export async function POST(request: Request) {
     }
 
     if (!response.ok) {
-      console.error(`[PLUMBLINE_CHECKOUT] NOWPayments invoice failed (${response.status}): ${text.slice(0, 500)}`);
+      console.error(`[VERTICALPLAYBOOK_CHECKOUT] NOWPayments invoice failed (${response.status}): ${text.slice(0, 500)}`);
       return NextResponse.json(
         {
           ok: false,
           error: "provider-unavailable",
           providerStatus: response.status,
-          message: "Checkout provider is unavailable. Please try again in a moment, or email hello@plumbline.",
+          message: "Checkout provider is unavailable. Please try again in a moment, or email hello@verticalplaybook.",
         },
         { status: 502 },
       );
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
           : undefined;
 
     if (!invoiceUrl) {
-      console.error(`[PLUMBLINE_CHECKOUT] NOWPayments returned no invoice_url. Body: ${text.slice(0, 500)}`);
+      console.error(`[VERTICALPLAYBOOK_CHECKOUT] NOWPayments returned no invoice_url. Body: ${text.slice(0, 500)}`);
       return NextResponse.json(
         { ok: false, error: "provider-shape", message: "Checkout provider returned an unexpected response." },
         { status: 502 },
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
         { status: 503 },
       );
     }
-    console.error("[PLUMBLINE_CHECKOUT] unexpected error", error);
+    console.error("[VERTICALPLAYBOOK_CHECKOUT] unexpected error", error);
     return NextResponse.json(
       { ok: false, error: "unexpected", message: "Unexpected error creating invoice." },
       { status: 500 },

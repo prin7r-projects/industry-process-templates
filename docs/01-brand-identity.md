@@ -2,28 +2,28 @@
 
 ## Brand pyramid
 
-- **Essence (1 word):** *Plumbline*
+- **Essence (1 word):** *VerticalPlaybook*
 - **Personality (3 traits):** Architectural · Quietly authoritative · Lived-in
 - **Values (3):** Precision over polish · Specificity over generality · Operational truth over marketing copy
 - **Attributes (5):** Calibrated, vertical-specific, drop-in deployable, owner-friendly, refundable
 
 ## Positioning statement
 
-For COOs and agency principals who are tired of stitching SOPs together from Notion templates and one-off Slack automations, **Plumbline** is a marketplace of vertical-specific operational bundles that drop into your stack inside a day, unlike generic "templates marketplace" sites and $250k/yr COO consultants because every bundle is calibrated for one industry — its tools, its rituals, its compliance edge cases — and ships with the SOPs, automations, n8n flows, and prompt packs already wired together.
+For COOs and agency principals who are tired of stitching SOPs together from Notion templates and one-off Slack automations, **VerticalPlaybook** is a marketplace of vertical-specific operational bundles that drop into your stack inside a day, unlike generic "templates marketplace" sites and $250k/yr COO consultants because every bundle is calibrated for one industry — its tools, its rituals, its compliance edge cases — and ships with the SOPs, automations, n8n flows, and prompt packs already wired together.
 
 ## Brand name and meaning
 
-**Plumbline.** A plumb line is the simplest and most reliable instrument for finding true vertical — the architectural metaphor for doing the work right rather than fast. It also carries the metaphor of plumbing and rigging the operational systems of a business so they hang true. The name reads as a single word, lowercase in body copy, capitalized at sentence-start. The wordmark is set in Source Serif 4 italic 400.
+**VerticalPlaybook.** A vertical playbook is the canonical operational reference for a specific industry — the architectural plan that captures the tools, rituals, and compliance edge cases an operator inherits when they choose their vertical. The name reads as a single compound word with a capital P, lowercase elsewhere in body copy. The wordmark is set in Source Serif 4 italic 400. The original "plumb line" metaphor — the simplest reliable instrument for finding true vertical — is preserved in the glyph: a vertical hairline rule with a single cinnabar bead, signaling architectural truth and the pursuit of doing operational work *right*.
 
-**Logo concept.** A vertical hairline rule (1px solid ink) descending from the top of the bounding box; at the bottom, a single cinnabar circle. The wordmark "Plumbline" sits to the right in serif italic. Variants:
+**Logo concept.** A vertical hairline rule (1px solid ink) descending from the top of the bounding box; at the bottom, a single cinnabar circle. The wordmark "VerticalPlaybook" sits to the right in serif italic. Variants:
 
-- *Primary lockup* — full wordmark + plumb line
-- *Compact* — plumb line glyph only (used in favicon, OG)
-- *Inline mono* — `[Plumbline]` in JetBrains Mono caps for footer plate caption
+- *Primary lockup* — full wordmark + vertical playbook line
+- *Compact* — vertical playbook line glyph only (used in favicon, OG)
+- *Inline mono* — `[VerticalPlaybook]` in JetBrains Mono caps for footer plate caption
 
 ```svg
 <!-- Compact glyph -->
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="Plumbline">
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="VerticalPlaybook">
   <line x1="16" y1="2" x2="16" y2="24" stroke="#1A1A18" stroke-width="1" />
   <circle cx="16" cy="27" r="3" fill="#C8472B" />
 </svg>

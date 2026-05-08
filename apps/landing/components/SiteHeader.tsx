@@ -11,7 +11,7 @@ export function SiteHeader() {
         <Link
           href="/"
           className="flex items-center gap-2"
-          aria-label="Plumbline home"
+          aria-label="VerticalPlaybook home"
         >
           <Wordmark size="md" />
         </Link>

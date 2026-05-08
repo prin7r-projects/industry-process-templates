@@ -1,14 +1,14 @@
-# Plumbline — DESIGN.md
+# VerticalPlaybook — DESIGN.md
 
 > Operational architecture, drawn to scale.
 
-This is the canonical design and style guide for **Plumbline** — Prin7r's marketplace of vertical-specific operational templates. Every visual decision in `apps/landing/` references this file. Updates ship together.
+This is the canonical design and style guide for **VerticalPlaybook** — Prin7r's marketplace of vertical-specific operational templates. Every visual decision in `apps/landing/` references this file. Updates ship together.
 
 ---
 
 ## 1. Product and audience
 
-**Product.** Plumbline is a marketplace of vertical-specific operational bundles. Each bundle is a deployable kit of standard operating procedures (SOPs), automations, n8n workflows, prompt packs, and embedded job aids — calibrated for one industry. A buyer picks their vertical (HVAC, dental practice, accounting firm, ecommerce-DTC, real-estate brokerage, SaaS support, marketing agency), pays in stablecoin or card-on-ramp via NOWPayments, and gets a ready-to-deploy bundle that drops into their stack within a day rather than the six-week internal-build alternative.
+**Product.** VerticalPlaybook is a marketplace of vertical-specific operational bundles. Each bundle is a deployable kit of standard operating procedures (SOPs), automations, n8n workflows, prompt packs, and embedded job aids — calibrated for one industry. A buyer picks their vertical (HVAC, dental practice, accounting firm, ecommerce-DTC, real-estate brokerage, SaaS support, marketing agency), pays in stablecoin or card-on-ramp via NOWPayments, and gets a ready-to-deploy bundle that drops into their stack within a day rather than the six-week internal-build alternative.
 
 **Audience.**
 - **Primary persona — Maren the COO.** 38, second-in-command at a $20M services or trade business. Has a Notion full of half-finished SOPs and a Slack channel of one-off automations the founder wired together. Wants to graduate to a real operating system without hiring a $250k/yr COO consultant.
@@ -20,27 +20,27 @@ Both personas are exhausted by "templates marketplace" SaaS that ships Notion-pa
 
 ## 2. Visual positioning
 
-Plumbline is **operational architecture** rendered with the precision of an engineering blueprint. Every page should feel like the page of a well-drawn manual: numbered steps, hairline rules, generous margins, tabular alignments, plate captions. The accent is **cinnabar** — a single confident industrial-paint red that marks load-bearing decisions. The tone is calm, technical, lived-in. We are not a SaaS pastel-gradient marketplace and we are not a brutalist editorial site; we are the printed reference manual the senior operator keeps on the shelf.
+**Wave 2 design refresh (2026-05-08).** VerticalPlaybook is now a **cloud control panel on pristine paper** — the page palette, typography, and surface language are lifted from `tailscale`'s reference DESIGN. The brand essence (operational architecture / SOP-as-software / numbered steps and plate captions) is preserved, but the aesthetic shifts from "transitional-serif printed manual" → "spacious bright SaaS infrastructure clarity": Inter throughout (no serif), Action Red `#D04841` accent in place of cinnabar, soft-shadow surface cards (radius 16-32px), Cloud Mist `#D5D3D2` hairlines.
 
 **Comparable references (not to be cloned):**
-- Stripe (architectural blueprint on white marble — palette discipline, hairline use)
-- Vercel (precise spacing, restrained color)
-- *Getting Things Done* — David Allen reference manuals (numbered procedural rigor)
-- Otis Elevator engineering drawings (called-out diagram annotations)
-- Field Notes / Pentagram editorial systems (transitional serif + clean sans)
+- **Tailscale** (the primary reference — Cloud Control Panel on pristine paper, Action Red single accent, soft Inter throughout, lifted directly into tokens)
+- **Stripe** (alt reference — architectural blueprint on white marble, palette discipline, hairline use)
+- **Vercel** (precise spacing, restrained color, soft shadows)
+- **Linear** (high-contrast typography, a single confident accent)
+- Otis Elevator engineering drawings — kept as a structural reference for the SOP plate diagram, not a visual reference
 
 **Forbidden territory:**
 - Ed-tech orange (Coursera, Udemy, Brilliant)
 - Generic SaaS gradient blue (Salesforce-era marketing)
 - "Templates marketplace" pastel (Notion-template Etsy aesthetic)
 - Anything resembling Anthropic / OpenAI / Vercel / Linear identities directly
-- Other Wave 2 sister brands: Render, Cited, Cold Iron, Dispatch, Cadence, Frontline, Brassmark, Triangulate
+- Other Wave 2 sister brands: Render, Cited, Cold Iron, Dispatch, Saltrun, Skyline Watch, Frontline, Brassmark, Triangulate
 
 ---
 
 ## 3. ShadCN baseline and local component policy
 
-Plumbline follows the Prin7r baseline: **shadcn/ui** primitives (Tailwind v4 + Radix) added via the registry CLI (`pnpm dlx shadcn@latest add <component>`). After import, the project owns the source.
+VerticalPlaybook follows the Prin7r baseline: **shadcn/ui** primitives (Tailwind v4 + Radix) added via the registry CLI (`pnpm dlx shadcn@latest add <component>`). After import, the project owns the source.
 
 **In-use ShadCN components for the landing.** `Button`, `Card`, `Badge`, `Accordion`, `Separator`, `Tabs`. All were added via the registry CLI and the source lives at `apps/landing/components/ui/*.tsx`. We restyle via Tailwind utility composition; we do not add a wrapper layer.
 
@@ -59,24 +59,24 @@ Plumbline follows the Prin7r baseline: **shadcn/ui** primitives (Tailwind v4 + R
 
 ## 4. Color tokens
 
-Pure-paper canvas with one industrial accent. All colors are explicit and named after the metaphor.
+Lifted 2026-05-08 from `design-references/tailscale.md` (Cloud Control Panel). Token NAMES preserved from the v1 cinnabar palette so existing components (`BlueprintHero`, `VerticalGrid`, `BundleAnatomy`, `Pricing`, `FAQ`, `SiteHeader`, `SiteFooter`, `Wordmark`) keep rendering — only VALUES are remapped.
 
 | Token | Hex | Role |
 |---|---|---|
-| `--paper` | `#FAFAF8` | Page background — near-white drafting paper |
-| `--paper-2` | `#F2F1EC` | Secondary surface, alternating section background |
-| `--ink` | `#1A1A18` | Primary text, headings, primary borders |
-| `--graphite` | `#444441` | Body copy, secondary text |
-| `--graphite-2` | `#7A7975` | Muted text, captions, plate numbers |
-| `--rule` | `#D7D5CD` | Hairline rules, borders, dividers |
-| `--rule-2` | `#E6E4DC` | Subtle dividers, table separators |
-| `--cinnabar` | `#C8472B` | Accent — primary CTAs, callouts, load-bearing emphasis |
-| `--cinnabar-deep` | `#A53618` | Hover, active state for cinnabar elements |
-| `--cinnabar-wash` | `#F6E4DD` | Tint background for cinnabar callouts |
-| `--ochre` | `#B98B2E` | Tertiary accent — used sparingly in diagrams (e.g. dimension lines) |
-| `--success` | `#3B7A4C` | Status-only — never used for primary CTA |
+| `--paper` | `#FAFAF8` | Page canvas — milky white (no beige per user rule; tailscale's `Canvas Pale #EEEBEA` is too warm) |
+| `--paper-2` | `#F7F5F4` | Surface frost — alt sections, nav background |
+| `--ink` | `#181717` | Graphite Black — primary text, headings, primary borders |
+| `--graphite` | `#2E2D2D` | Storm Gray — body copy, subheadings |
+| `--graphite-2` | `#575555` | Stone Gray — captions, helper text, plate numbers |
+| `--rule` | `#D5D3D2` | Cloud Mist — 1px hairlines, dividers |
+| `--rule-2` | `#E8E5E3` | Lighter rule — recessed dividers |
+| `--cinnabar` | `#D04841` | Action Red — single confident accent · primary CTAs · callouts |
+| `--cinnabar-deep` | `#A03A33` | Hover/active for cinnabar elements |
+| `--cinnabar-wash` | `#F8E6E5` | Featured pricing tier wash, alert backgrounds |
+| `--ochre` | `#5A82DE` | Action Blue Gradient start — secondary tactical highlight (replaces v1 ochre) |
+| `--success` | `#2D7A4F` | Status-only — never used for primary CTA |
 
-**Discipline.** Cinnabar is the only accent on a typical page. Ochre appears only inside the hero blueprint figure or anatomy diagram as a dimension-line color. Success green appears only in inline status badges ("verified" / "active").
+**Discipline.** Action Red (cinnabar) is the only high-saturation accent on a typical page. Action Blue (ochre token, retoned) appears only inside the hero blueprint figure as a dimension-line color. Success green appears only in inline status badges ("verified" / "active").
 
 ---
 
@@ -183,13 +183,13 @@ A transitional serif paired with a humanist sans, with a clean monospace for ste
 
 The landing page is a single file (`apps/landing/app/page.tsx`) composed of these sections in order. All copy is real, sourced from `docs/08-marketing-strategy.md`.
 
-1. **Top bar.** Plumbline wordmark (serif italic) + 5 nav items (Verticals, Bundles, How it works, Pricing, FAQ) + secondary "Buy Bundle" CTA.
+1. **Top bar.** VerticalPlaybook wordmark (serif italic) + 5 nav items (Verticals, Bundles, How it works, Pricing, FAQ) + secondary "Buy Bundle" CTA.
 2. **Hero.** Two-column on lg+. Left: kicker "PLATE 01 — VERTICAL OPS BUNDLES", h1 "The operational system you wish came in the box.", lead paragraph, primary + secondary CTA, sub-line ("Verified live unpaid invoice — checkout in <30s"). Right: the hero blueprint figure — a real SOP excerpt rendered as architectural drawing. Numbered steps, hairline rules, dimension callouts in ochre.
 3. **Vertical grid.** 7 verticals: HVAC, Dental practices, Accounting firms, DTC ecommerce, Real-estate brokerage, SaaS support, Marketing agencies. Each card shows count of templates ("28 SOPs / 14 automations / 9 n8n flows / 4 prompt packs"). Click → product detail (deferred to Wave 3 — for Wave 2 the click opens a hash anchor with bundle anatomy).
 4. **Bundle anatomy.** "What's in a bundle" — 4 columns (SOPs / Automations / n8n flows / Prompt packs) each with 3-bullet callouts and a small SOP plate excerpt as illustration.
 5. **Pricing.** 3 tiers: Single Bundle ($249) / Vertical Pack ($1,490) / Enterprise ($9,800). Each has the NOWPayments hosted-invoice CTA wired to `POST /api/checkout/nowpayments` and redirected to the hosted invoice URL. Vertical Pack is the recommended tier.
 6. **FAQ.** 6 items: integration time, n8n flow compatibility, license terms, support level, customization, refund policy.
-7. **Footer.** 4 columns: Verticals / Product / Company / Legal. Wordmark + plate caption "Plumbline / Prin7r 2026" at bottom.
+7. **Footer.** 4 columns: Verticals / Product / Company / Legal. Wordmark + plate caption "VerticalPlaybook / Prin7r 2026" at bottom.
 
 ---
 
@@ -266,4 +266,5 @@ Both captured via the Prin7r shared Playwright harness at `/tmp/prin7r-screensho
 
 ## 15. Changelog
 
-- **2026-05-08** — Initial DESIGN.md authored alongside landing build. Brand "Plumbline" established. Cinnabar `#C8472B` accent on paper `#FAFAF8`. Source Serif 4 + Inter + JetBrains Mono pairing. 7-vertical grid, 3-tier pricing with NOWPayments hosted invoice CTA. Live deploy at `https://industry-process-templates.prin7r.com`. Screenshots captured at deploy + 5min.
+- **2026-05-08** — Initial DESIGN.md authored alongside landing build. Brand "VerticalPlaybook" established. Cinnabar `#C8472B` accent on paper `#FAFAF8`. Source Serif 4 + Inter + JetBrains Mono pairing. 7-vertical grid, 3-tier pricing with NOWPayments hosted invoice CTA. Live deploy at `https://industry-process-templates.prin7r.com`. Screenshots captured at deploy + 5min.
+- **2026-05-08 (rebrand)** — Brand renamed from **Plumbline** → **VerticalPlaybook** to avoid live SaaS collision with `plumblineconsulting.com` (Microsoft Dynamics 365 vertical-SaaS add-on, direct same-category competitor) and `plumblineanswers.org` (call-answering for trades, adjacent collision). New domain `verticalplaybook.com` (verified available). The architectural metaphor — vertical line + cinnabar bead glyph — is preserved (still reads as a plumb line geometrically), but the brand essence shifts from "plumb line measurement instrument" → "vertical playbook / industry-specific operational architecture." Wordmark monogram updates: V (or Vp) replaces P. All source/docs/Notion synchronously updated; tokens, palette, typography, and component layouts unchanged.

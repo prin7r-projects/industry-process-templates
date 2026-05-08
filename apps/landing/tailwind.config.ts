@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 /*
- * Plumbline — Wave 2 design refresh 2026-05-08
+ * VerticalPlaybook — Wave 2 design refresh 2026-05-08
  * Reference: tailscale (Cloud control panel on pristine paper)
  * Token NAMES preserved (paper/paper-2/ink/graphite/rule/cinnabar/ochre/success)
  * so existing components (BlueprintHero / VerticalGrid / BundleAnatomy /

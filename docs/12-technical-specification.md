@@ -6,7 +6,7 @@ This document is the engineering input contract for the Phase 2 SaaS implementat
 
 ## 1. Architecture overview
 
-Plumbline is a vertically integrated content marketplace: a catalog UI, a content store, an n8n integration layer, a payments adapter, and a license-bound delivery service. Doc 02 covers the v1 static landing topology; this section adds the Wave 3 runtime detail.
+VerticalPlaybook is a vertically integrated content marketplace: a catalog UI, a content store, an n8n integration layer, a payments adapter, and a license-bound delivery service. Doc 02 covers the v1 static landing topology; this section adds the Wave 3 runtime detail.
 
 ### Runtime topology (Wave 3 target state)
 
@@ -103,7 +103,7 @@ sync via Notion API"]
 | Worker | same host | `/opt/prin7r-deploys/industry-process-templates/worker` | sidecar to app |
 | Postgres | same host | dokploy-managed Postgres 16 | volume backups daily |
 | Redis | same host | docker-compose internal network | not exposed externally |
-| S3-compatible | Contabo Object Storage (existing tenancy) | `bucket: plumbline-bundles` | private bucket, signed URLs only |
+| S3-compatible | Contabo Object Storage (existing tenancy) | `bucket: verticalplaybook-bundles` | private bucket, signed URLs only |
 | Reverse proxy | host-network Traefik (`dokploy-traefik`) | n/a | routes `industry-process-templates.prin7r.com` → landing, `app.industry-process-templates.prin7r.com` → app |
 
 ### Dependencies
@@ -402,7 +402,7 @@ All Wave 3 app endpoints are versioned at `/api/v1/`. Auth model: cookie session
 
 ### 3.8 Admin (Wave 3+)
 
-`GET /api/v1/admin/vertical-requests`, `GET /api/v1/admin/refund-events`, `POST /api/v1/admin/bundles/:slug/publish-version`. Auth: cookie session + role=admin (only Plumbline staff). Shape stable but full schema deferred to Wave 3 build agent.
+`GET /api/v1/admin/vertical-requests`, `GET /api/v1/admin/refund-events`, `POST /api/v1/admin/bundles/:slug/publish-version`. Auth: cookie session + role=admin (only VerticalPlaybook staff). Shape stable but full schema deferred to Wave 3 build agent.
 
 ---
 
@@ -412,7 +412,7 @@ All Wave 3 app endpoints are versioned at `/api/v1/`. Auth model: cookie session
 
 - **Auth:** API key in `X-Api-Key` header (server-to-server). IPN auth via HMAC-SHA512 with shared secret.
 - **Endpoints used:** `POST /v1/invoice`, `GET /v1/payment/:id` (reconciliation), `POST /v1/payout` (refunds — Wave 3).
-- **Rate limits:** 100 req/min for invoice creation per provider docs. Plumbline volume well below this in Wave 3.
+- **Rate limits:** 100 req/min for invoice creation per provider docs. VerticalPlaybook volume well below this in Wave 3.
 - **Fallback:** on 5xx, return `502 provider-unavailable` to the buyer with `retryAfter: 60`. Plisio + Reown are wired as `coming soon` buttons in v1 — full provider abstraction lives in `apps/landing/lib/checkout.ts`.
 - **Sandbox:** NOWPayments sandbox environment used for staging; toggled via `NOWPAYMENTS_BASE_URL` env var.
 
@@ -425,7 +425,7 @@ All Wave 3 app endpoints are versioned at `/api/v1/`. Auth model: cookie session
 
 ### n8n (buyer's instance — self-hosted or n8n.cloud)
 
-- **Auth:** none from Plumbline side; Plumbline mints an install-token URL that opens in the buyer's n8n with import payload. The buyer's n8n imports the workflow JSON; credential wiring is the buyer's responsibility.
+- **Auth:** none from VerticalPlaybook side; VerticalPlaybook mints an install-token URL that opens in the buyer's n8n with import payload. The buyer's n8n imports the workflow JSON; credential wiring is the buyer's responsibility.
 - **Compatibility target:** n8n ≥ 1.42 (LTS as of Wave 3 ship).
 - **Activation callback:** optional first-run callback in the workflow JSON template that posts to `/api/v1/n8n/activation-callback`. Configurable; some buyers will disable it for privacy.
 
@@ -454,13 +454,13 @@ All Wave 3 app endpoints are versioned at `/api/v1/`. Auth model: cookie session
 
 ### Bundle artifacts
 
-- **Storage:** S3-compatible (Contabo Object Storage). Private bucket `plumbline-bundles`.
-- **Layout:** `s3://plumbline-bundles/<bundle_slug>/<semver>/bundle.zip` + sibling `manifest.json`, `sops/`, `flows/`.
+- **Storage:** S3-compatible (Contabo Object Storage). Private bucket `verticalplaybook-bundles`.
+- **Layout:** `s3://verticalplaybook-bundles/<bundle_slug>/<semver>/bundle.zip` + sibling `manifest.json`, `sops/`, `flows/`.
 - **Access:** signed URLs only; no public ACLs. URL TTL 24h matches download-token TTL.
 
 ### Sample SOP renders (public)
 
-- **Storage:** `s3://plumbline-bundles/public/sample-sop/<vertical>/<slug>.md` — the only public path.
+- **Storage:** `s3://verticalplaybook-bundles/public/sample-sop/<vertical>/<slug>.md` — the only public path.
 - **Cache:** Cloudflare CDN in front (existing wildcard zone).
 
 ### Indexes + retention
@@ -520,7 +520,7 @@ See §2 for index list. Retention: orders/licenses indefinitely; vertical-reques
 
 ### License enforcement
 
-- Bundle .zip download served via signed URL with 24h TTL, single-use semantics (Plumbline tracks tokens; second redemption fails).
+- Bundle .zip download served via signed URL with 24h TTL, single-use semantics (VerticalPlaybook tracks tokens; second redemption fails).
 - License-encoded watermark in bundle metadata (Wave 4) — adds origin-trace to redistributed copies.
 - Resale violations: license revocation via admin endpoint; future purchases blocked by email + wallet matchup.
 
@@ -544,15 +544,15 @@ Emitted to a Prometheus-compatible endpoint at `/metrics` (cookie-auth-gated; on
 
 | Metric | Type | Labels |
 |---|---|---|
-| `plumbline_purchase_funnel_total` | counter | `step ∈ {landed, viewed_vertical, opened_pricing, started_checkout, paid}`, `vertical` |
-| `plumbline_activation_rate` | gauge | `bundle`, `flow_id` |
-| `plumbline_n8n_install_duration_seconds` | histogram | `bundle` |
-| `plumbline_n8n_install_token_issued_total` | counter | `bundle` |
-| `plumbline_n8n_install_token_expired_total` | counter | `bundle` |
-| `plumbline_synthetic_test_failed_total` | counter | `bundle`, `flow_id`, `vendor` |
-| `plumbline_ipn_verify_failed_total` | counter | `provider` |
-| `plumbline_refund_requested_total` | counter | `reason` |
-| `plumbline_catalog_cache_hit_total` | counter | `endpoint` |
+| `verticalplaybook_purchase_funnel_total` | counter | `step ∈ {landed, viewed_vertical, opened_pricing, started_checkout, paid}`, `vertical` |
+| `verticalplaybook_activation_rate` | gauge | `bundle`, `flow_id` |
+| `verticalplaybook_n8n_install_duration_seconds` | histogram | `bundle` |
+| `verticalplaybook_n8n_install_token_issued_total` | counter | `bundle` |
+| `verticalplaybook_n8n_install_token_expired_total` | counter | `bundle` |
+| `verticalplaybook_synthetic_test_failed_total` | counter | `bundle`, `flow_id`, `vendor` |
+| `verticalplaybook_ipn_verify_failed_total` | counter | `provider` |
+| `verticalplaybook_refund_requested_total` | counter | `reason` |
+| `verticalplaybook_catalog_cache_hit_total` | counter | `endpoint` |
 
 ### Trace propagation
 
@@ -562,8 +562,8 @@ Emitted to a Prometheus-compatible endpoint at `/metrics` (cookie-auth-gated; on
 
 | Alert | Condition | Channel |
 |---|---|---|
-| IPN verify failure spike | `>5 in 10min` | Slack #plumbline-oncall |
-| Synthetic test failure | any failure | Slack #plumbline-oncall |
+| IPN verify failure spike | `>5 in 10min` | Slack #verticalplaybook-oncall |
+| Synthetic test failure | any failure | Slack #verticalplaybook-oncall |
 | Refund rate spike | `>10% of orders/day` | Slack + email |
 | Catalog cache miss rate | `>50% sustained 30min` | Slack |
 | Order without delivery email | `>0` | Slack (auto-resolves on resend) |
@@ -592,14 +592,14 @@ These items are deliberately NOT built in Wave 2 or Wave 3 MVP. Future implement
 
 1. **Custom SOP authoring service.** We do not write one-off SOPs on request. Buyers can submit a `vertical-request`; we ship if volume justifies.
 2. **Compliance certification or audit pipeline.** No SOC2 questionnaire response, no HIPAA attestations, no regulatory-counsel review service. Bundles ship with baseline content; compliance review is the buyer's responsibility.
-3. **Full multi-tenant SaaS for the operator.** Plumbline does not host the buyer's n8n, does not run their SOP library, does not manage their team's access. We deliver bundle artifacts; the buyer deploys into their own stack.
+3. **Full multi-tenant SaaS for the operator.** VerticalPlaybook does not host the buyer's n8n, does not run their SOP library, does not manage their team's access. We deliver bundle artifacts; the buyer deploys into their own stack.
 4. **Affiliate program.** No referral-link generation, no commission tracking. Considered Wave 4+.
 5. **Localization.** v1 ships English-only, US/CA jurisdiction context. No i18n in Wave 3.
 6. **Per-SOP semver / per-SOP licensing.** Whole-bundle versioning only. Wave 4 may add per-SOP version pins.
 7. **Real-time collaborative SOP editing.** Out of scope. Bundles are immutable artifacts; customer customizations live in the buyer's own stack.
 8. **Reseller program platform.** Wave 4+. Wave 3 MVP enforces single-implementation license but does not offer reseller-tier pricing or sub-license management UX.
 9. **Mobile app.** Wave 3 customer dashboard is responsive web only. No iOS/Android native apps.
-10. **Agency-platform pivot.** Plumbline is a marketplace, not an operating-system-as-a-service. Even if agency-buyer feedback pulls toward "host my retainer ops here," we do not pivot.
+10. **Agency-platform pivot.** VerticalPlaybook is a marketplace, not an operating-system-as-a-service. Even if agency-buyer feedback pulls toward "host my retainer ops here," we do not pivot.
 
 ---
 

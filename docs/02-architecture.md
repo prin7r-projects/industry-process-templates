@@ -5,7 +5,7 @@
 ```mermaid
 flowchart LR
     subgraph Client["Buyer browser"]
-        L["Plumbline landing
+        L["VerticalPlaybook landing
 apps/landing"]
     end
 

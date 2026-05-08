@@ -1,4 +1,4 @@
-# Plumbline — `industry-process-templates`
+# VerticalPlaybook — `industry-process-templates`
 
 > Operational architecture for the verticals that build the world.
 
@@ -57,9 +57,9 @@ A marketplace of vertical-specific operational bundles — SOPs, automations, n8
 
 ## Screenshots
 
-![Plumbline desktop landing](./docs/screenshots/landing-desktop.png)
+![VerticalPlaybook desktop landing](./docs/screenshots/landing-desktop.png)
 
-![Plumbline mobile landing](./docs/screenshots/landing-mobile.png)
+![VerticalPlaybook mobile landing](./docs/screenshots/landing-mobile.png)
 
 ---
 
@@ -122,4 +122,4 @@ The canonical design + style guide is at `DESIGN.md`. All landing-page changes u
 
 ## License
 
-The code in this repo is MIT — see `LICENSE`. The Plumbline *bundles* (SOPs, automations, n8n flow exports, prompt packs) sold to buyers are covered by a separate single-implementation commercial license documented at delivery time.
+The code in this repo is MIT — see `LICENSE`. The VerticalPlaybook *bundles* (SOPs, automations, n8n flow exports, prompt packs) sold to buyers are covered by a separate single-implementation commercial license documented at delivery time.

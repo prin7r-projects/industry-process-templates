@@ -6,7 +6,7 @@ This document is the canonical input contract for the Phase 2 SaaS implementatio
 
 ## 1. Personas summary
 
-Plumbline is built for senior operators in defined verticals, not for hobbyists or for enterprise procurement. See `05-audience-profile.md` for the full deep-dive; the short form lives here.
+VerticalPlaybook is built for senior operators in defined verticals, not for hobbyists or for enterprise procurement. See `05-audience-profile.md` for the full deep-dive; the short form lives here.
 
 ### Persona A — Maren the COO (primary, ~70% of buyers)
 
@@ -51,7 +51,7 @@ Each scenario is one narrative walkthrough from trigger to value moment. Fronten
 
 ### Scenario 1 — Single-bundle purchase + first SOP deployed (HVAC vertical)
 
-**Trigger.** Maren clicks a tweet thread from a sister-business COO recommending Plumbline's HVAC bundle. She lands on `https://industry-process-templates.prin7r.com/?ref=twitter-cooalliance-2026q2`.
+**Trigger.** Maren clicks a tweet thread from a sister-business COO recommending VerticalPlaybook's HVAC bundle. She lands on `https://industry-process-templates.prin7r.com/?ref=twitter-cooalliance-2026q2`.
 
 **Steps.**
 1. Maren reads the hero ("The operational system you wish came in the box.") and scrolls to the Vertical Grid. *Frontend: `BlueprintHero`, `VerticalGrid` components on `apps/landing/app/page.tsx`.*
@@ -74,7 +74,7 @@ Each scenario is one narrative walkthrough from trigger to value moment. Fronten
 
 ### Scenario 2 — Vertical-pack subscription (dental practice owner)
 
-**Trigger.** Priya (ops lead) shares a Plumbline link with the partner-owner of a 4-practice dental group after a peer recommends the dental Vertical Pack at a Dental Economics dinner.
+**Trigger.** Priya (ops lead) shares a VerticalPlaybook link with the partner-owner of a 4-practice dental group after a peer recommends the dental Vertical Pack at a Dental Economics dinner.
 
 **Steps.**
 1. Partner-owner opens the link on desktop, scrolls to the Dental card in the Vertical Grid. Reads the fit definition ("private-practice dental, 1-6 chairs, $1M-$10M ARR, US/CA jurisdiction").
@@ -118,17 +118,17 @@ Each scenario is one narrative walkthrough from trigger to value moment. Fronten
 **Trigger.** Maren has downloaded the HVAC bundle. She opens the "Dispatch SLA monitoring" n8n flow and wants to activate it against her ServiceTitan account.
 
 **Steps.**
-1. Maren clicks the "Install in n8n" button next to the flow inside her Plumbline customer dashboard (Wave 3). *Frontend: `BundleArtifactList` row → `InstallN8NButton`.*
+1. Maren clicks the "Install in n8n" button next to the flow inside her VerticalPlaybook customer dashboard (Wave 3). *Frontend: `BundleArtifactList` row → `InstallN8NButton`.*
 2. Browser POSTs to `/api/n8n/install-token` with `{ licenseId, flowId }`. *Backend: validates license, mints a short-lived (5 min) n8n install token, returns `{ installUrl, expiresAt }`.*
 3. The `installUrl` is a redirect into Maren's n8n instance with a one-time-use payload that imports the workflow JSON. Maren clicks through; n8n shows the imported workflow in draft.
 4. n8n prompts Maren to wire credentials (ServiceTitan API key, Slack webhook). The bundle workflow JSON has placeholders rather than credentials.
 5. Maren saves credentials. She clicks "Test trigger" in n8n. The workflow fires once against a sample dispatch ticket.
-6. She activates the workflow live. Plumbline's install-token endpoint receives a follow-up "activation confirmed" beacon (Wave 3 — bundle workflow includes a small first-run callback).
-7. The Plumbline dashboard updates: this flow's status transitions from `installed` → `active`. *Backend: `Activation` row updated.*
+6. She activates the workflow live. VerticalPlaybook's install-token endpoint receives a follow-up "activation confirmed" beacon (Wave 3 — bundle workflow includes a small first-run callback).
+7. The VerticalPlaybook dashboard updates: this flow's status transitions from `installed` → `active`. *Backend: `Activation` row updated.*
 
 **Success criteria.**
 - Install token TTL ≤ 5 min and single-use.
-- Workflow JSON valid for n8n versions ≥ 1.42 (or whichever LTS Plumbline targets at ship time).
+- Workflow JSON valid for n8n versions ≥ 1.42 (or whichever LTS VerticalPlaybook targets at ship time).
 - Activation status visible in dashboard within 30s of trigger fire.
 - p95 latency for install-token issuance ≤ 10s end-to-end (includes n8n redirect and JSON import).
 
@@ -137,25 +137,25 @@ Each scenario is one narrative walkthrough from trigger to value moment. Fronten
 
 ### Scenario 5 — Custom-template request escalation (vertical we don't have)
 
-**Trigger.** A buyer in a vertical Plumbline doesn't currently sell — say, a senior-living facility operator — visits the site, scrolls the Vertical Grid, doesn't find a fit.
+**Trigger.** A buyer in a vertical VerticalPlaybook doesn't currently sell — say, a senior-living facility operator — visits the site, scrolls the Vertical Grid, doesn't find a fit.
 
 **Steps.**
 1. Visitor scrolls past the 7 verticals and finds a footer CTA: "Vertical not listed? Request it." *Frontend: `VerticalRequestForm` component on home page bottom and on a `/request-vertical` route.*
 2. Clicks through. Form asks: business vertical (free text), revenue band, current ops tools, what they'd pay for a bundle. *Backend: `POST /api/vertical-requests` writes to a `VerticalRequest` table.*
 3. Submits. Sees a confirmation: "We log every request and prioritize the next vertical based on volume + fit. You'll hear from us if we ship your vertical within 6 months."
-4. (Wave 3) When Plumbline ships a new vertical, all matching requests get a one-time email with the vertical's launch link.
+4. (Wave 3) When VerticalPlaybook ships a new vertical, all matching requests get a one-time email with the vertical's launch link.
 
 **Success criteria.**
 - No automated promise of custom SOP authoring (we explicitly do not offer that — see anti-scenarios §5).
 - Form is rate-limited to prevent spam (server-side captcha + 1 req/min/IP).
-- Volume of requests is observable in an internal admin dashboard so Plumbline can prioritize the next vertical.
+- Volume of requests is observable in an internal admin dashboard so VerticalPlaybook can prioritize the next vertical.
 
 **Frontend touch-points.** `VerticalRequestForm`, `/request-vertical` page, footer CTA.
 **Backend touch-points.** `POST /api/vertical-requests`, `VerticalRequest` table, captcha integration (hCaptcha), admin-only `GET /api/admin/vertical-requests` (Wave 3+).
 
 ### Scenario 6 — Quarterly bundle update + diff review (existing Vertical Pack subscriber)
 
-**Trigger.** Maren receives an email: "Plumbline HVAC Bundle v2.1 published — 3 new SOPs, n8n flow updates for the new ServiceTitan API." (Email triggered by the Wave 3 update-publish job.)
+**Trigger.** Maren receives an email: "VerticalPlaybook HVAC Bundle v2.1 published — 3 new SOPs, n8n flow updates for the new ServiceTitan API." (Email triggered by the Wave 3 update-publish job.)
 
 **Steps.**
 1. Maren clicks the email link. Lands on her customer dashboard's "Updates" tab. *Frontend: `UpdatesFeed` component listing all bundle updates since `subscription.last_seen_update_at`.*
@@ -180,26 +180,26 @@ Each edge case names the failure mode, the system response, and any escalation p
 
 ### Edge case 1 — Vertical mis-categorization at signup
 
-**Scenario.** Buyer self-selects HVAC at the catalog page but their actual business is commercial HVAC + facilities management (mixed vertical) — not the residential 5-30-truck shape Plumbline calibrated for.
+**Scenario.** Buyer self-selects HVAC at the catalog page but their actual business is commercial HVAC + facilities management (mixed vertical) — not the residential 5-30-truck shape VerticalPlaybook calibrated for.
 
 **System response.**
 - Pre-purchase: vertical detail page lists a mandatory fit-check ("This bundle assumes: residential, 5-30 trucks, $2M-$25M ARR. If your business doesn't match, see [other vertical] or request a new vertical.").
 - Post-purchase: 30-day no-questions refund per doc 07. Refund processed via NOWPayments stablecoin reversal to the same wallet.
-- Internal: refund triggers an entry in `RefundEvents` with `reason='wrong-vertical'` so Plumbline can analyze fit-definition tightness over time.
+- Internal: refund triggers an entry in `RefundEvents` with `reason='wrong-vertical'` so VerticalPlaybook can analyze fit-definition tightness over time.
 
 ### Edge case 2 — n8n connector breakage (third-party API change)
 
 **Scenario.** ServiceTitan deprecates their `v1.2` API. The bundle's "Dispatch SLA monitoring" n8n flow fails on next run.
 
 **System response.**
-- Plumbline subscribes to a small set of high-criticality vendor changelogs (ServiceTitan, Notion, Slack, etc.) and runs a daily synthetic-test job per critical flow.
+- VerticalPlaybook subscribes to a small set of high-criticality vendor changelogs (ServiceTitan, Notion, Slack, etc.) and runs a daily synthetic-test job per critical flow.
 - When a synthetic test fails, an internal "broken-connector" alert fires (Slack channel + on-call rota).
-- Plumbline ships an out-of-cycle bundle patch (vN.M.1) within 5 business days. All subscribers receive an email + dashboard banner.
+- VerticalPlaybook ships an out-of-cycle bundle patch (vN.M.1) within 5 business days. All subscribers receive an email + dashboard banner.
 - Customer dashboard shows a "Connector breakage detected — patch incoming" banner on the affected bundle until the patch ships.
 
 ### Edge case 3 — Template version drift (customer customized v1.0 deeply, v2.0 ships breaking changes)
 
-**Scenario.** Maren customized the HVAC bundle's "Dispatch SLA" SOP heavily. Plumbline ships v2.0 with a structural rewrite of that SOP.
+**Scenario.** Maren customized the HVAC bundle's "Dispatch SLA" SOP heavily. VerticalPlaybook ships v2.0 with a structural rewrite of that SOP.
 
 **System response.**
 - v2.0 changelog flags structural changes per SOP with a `breaking: true` field. Dashboard groups breaking vs. non-breaking changes separately.
@@ -222,7 +222,7 @@ Each edge case names the failure mode, the system response, and any escalation p
 
 **System response.**
 - License terms (in bundle README + landing FAQ) explicitly forbid redistribution.
-- Plumbline serves takedown notices to the marketplace and to the buyer.
+- VerticalPlaybook serves takedown notices to the marketplace and to the buyer.
 - If repeated: license keys are revoked, future purchases blocked by IP/wallet/email matchup.
 - Wave 4: each bundle .zip contains a license-encoded watermark in SOP metadata so origin is traceable.
 
@@ -240,7 +240,7 @@ Each edge case names the failure mode, the system response, and any escalation p
 **Scenario.** NOWPayments accepts the payment and confirms on-chain, but the IPN fails to reach our webhook (network error, DNS, etc.) within 24 hours.
 
 **System response.**
-- Plumbline runs a reconciliation job daily that polls `GET /v1/payment/{payment_id}` for any in-flight invoice older than 30 min.
+- VerticalPlaybook runs a reconciliation job daily that polls `GET /v1/payment/{payment_id}` for any in-flight invoice older than 30 min.
 - If reconciliation finds a paid invoice without a corresponding `Order.status='paid'`, it manually triggers the post-payment flow (license issuance, email).
 - Customer-facing: if 24h elapse without delivery email, customer can self-trigger via a "Resend my purchase" form keyed by email + transaction id.
 
@@ -258,9 +258,9 @@ Each edge case names the failure mode, the system response, and any escalation p
 
 These flows are deliberately not built. Future implementation agents must not add them without product approval.
 
-1. **We do not write custom SOPs ad-hoc on request.** Plumbline is a marketplace of pre-packaged vertical bundles; we do not run a bespoke SOP authoring service. Buyers can request a new vertical (Scenario 5), and we ship if volume justifies; we do not write a one-off SOP for a single buyer.
+1. **We do not write custom SOPs ad-hoc on request.** VerticalPlaybook is a marketplace of pre-packaged vertical bundles; we do not run a bespoke SOP authoring service. Buyers can request a new vertical (Scenario 5), and we ship if volume justifies; we do not write a one-off SOP for a single buyer.
 2. **We do not manage compliance audits.** Bundles ship with a baseline that highly-regulated verticals (medical-grade dental, financial advisory) must take to a compliance officer for review before deploy. We are not a compliance certifier and do not maintain a compliance-officer review pipeline.
-3. **We do not host a multi-tenant SaaS for the operator.** Plumbline does not run the buyer's n8n, does not host their SOP library, does not manage their team's access. We deliver the bundle artifact; the buyer deploys it into their own stack. Wave 3 SaaS adds a customer dashboard for license/download management only — never for the buyer's operational data.
+3. **We do not host a multi-tenant SaaS for the operator.** VerticalPlaybook does not run the buyer's n8n, does not host their SOP library, does not manage their team's access. We deliver the bundle artifact; the buyer deploys it into their own stack. Wave 3 SaaS adds a customer dashboard for license/download management only — never for the buyer's operational data.
 4. **We do not offer an affiliate program in v1.** No referral-link generation, no commission tracking. Considered for Wave 4+ behind license-tier protections.
 5. **We do not redline enterprise procurement contracts.** Enterprise tier exists ($9,800) but the v1 fulfillment is "schedule a call, sign our 4-page MSA, no redlines beyond reasonable customer redlines." We will not entertain SOC2 questionnaires, vendor security reviews, or DPA negotiations in Wave 2 or Wave 3.
 6. **We do not auto-translate bundles into other languages.** v1 ships English-only. Bundles assume US/CA jurisdiction context. Localization is not on the Wave 3 roadmap.
@@ -282,7 +282,7 @@ This matrix is the input contract for doc 12 §3 (API contracts). Every story be
 | 7 (share excerpts with partner pre-purchase) | S2 | public sample-SOP routes (`/sample-sop/:vertical/:slug`), `GET /api/catalog/sample-sop` |
 | 8 (per-client license keys for resellers) | (Wave 4) | `Reseller` + `ChildLicense` tables — flagged as Wave 4 in doc 12 §10 |
 | 9 (request a new vertical) | S5 | `POST /api/vertical-requests`, admin `GET /api/admin/vertical-requests` |
-| 10 (card-on-ramp at checkout) | S1, S2, S3 | NOWPayments hosted invoice supports it natively — no Plumbline endpoint needed |
+| 10 (card-on-ramp at checkout) | S1, S2, S3 | NOWPayments hosted invoice supports it natively — no VerticalPlaybook endpoint needed |
 | 11 (refund within 30 days) | EC4 | `POST /api/refunds`, `RefundService`, NOWPayments reversal API |
 | 12 (see what's updated since last login) | S6 | `GET /api/dashboard/updates` (uses `subscription.last_seen_update_at`) |
 

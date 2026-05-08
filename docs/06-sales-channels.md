@@ -1,6 +1,6 @@
 # 06 — Sales Channels
 
-Plumbline's distribution is built around the observation that COOs and agency principals trust **other operators in the same vertical** more than any other source. Channel mix follows.
+VerticalPlaybook's distribution is built around the observation that COOs and agency principals trust **other operators in the same vertical** more than any other source. Channel mix follows.
 
 ## Channel mix (by 90-day priority)
 
@@ -25,7 +25,7 @@ Plumbline's distribution is built around the observation that COOs and agency pr
 - *ACCA Member Briefing* (HVAC) — vertical specific
 - *Dental Economics newsletter* (dental) — vertical specific
 
-**Tactic.** Each sponsorship runs the SAME format: "Plumbline ships [vertical] operational bundles. [3-line description]. See the sample SOP from the [vertical] bundle: [link]. Bundle: $1,490. [link]." The sample-SOP CTA outperforms the bundle CTA in tracked clicks ~3.2× from pilot data.
+**Tactic.** Each sponsorship runs the SAME format: "VerticalPlaybook ships [vertical] operational bundles. [3-line description]. See the sample SOP from the [vertical] bundle: [link]. Bundle: $1,490. [link]." The sample-SOP CTA outperforms the bundle CTA in tracked clicks ~3.2× from pilot data.
 
 **Cost.** $500–$2,500 per placement. Target $4,000/mo blended.
 
@@ -33,7 +33,7 @@ Plumbline's distribution is built around the observation that COOs and agency pr
 
 ### 2. Peer-referral asset library (25%)
 
-**Tactic.** Publish 3 sample SOPs as free, fully readable web pages at `/sample-sop/[vertical]-[name]`. Each page is a single, well-designed SOP excerpt with a Plumbline footer + "Buy the full [vertical] bundle — $1,490" CTA. The SOPs are designed to be forwarded.
+**Tactic.** Publish 3 sample SOPs as free, fully readable web pages at `/sample-sop/[vertical]-[name]`. Each page is a single, well-designed SOP excerpt with a VerticalPlaybook footer + "Buy the full [vertical] bundle — $1,490" CTA. The SOPs are designed to be forwarded.
 
 **Sample SOPs to publish in v1 (Wave 3 deliverable; v1 ships placeholder routes):**
 - HVAC: "Fall startup checklist — residential, 5-30 trucks"
@@ -94,8 +94,8 @@ We use a simple convention: every external link includes `?ref=<channel>-<placem
 
 ## Channels we explicitly do not use
 
-- **Google Search ads.** Plumbline's intent doesn't show up in search queries (operators don't search for "industry process templates"; they search for vertical-specific pains we can't outbid generic SaaS for).
+- **Google Search ads.** VerticalPlaybook's intent doesn't show up in search queries (operators don't search for "industry process templates"; they search for vertical-specific pains we can't outbid generic SaaS for).
 - **Facebook/Instagram ads.** Wrong context for Maren and Yusuf.
 - **Affiliate program.** v1 deliberately does not offer one — it dilutes the brand and incentivizes the wrong buyer behavior. Considered Wave 4+.
 - **Reddit.** Mid-market operators do not buy from Reddit posts.
-- **Product Hunt.** Plumbline is not a product launch; it's an evergreen marketplace. PH would be one bump and then nothing.
+- **Product Hunt.** VerticalPlaybook is not a product launch; it's an evergreen marketplace. PH would be one bump and then nothing.

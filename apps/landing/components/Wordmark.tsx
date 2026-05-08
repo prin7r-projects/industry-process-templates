@@ -21,7 +21,7 @@ export function Wordmark({ className, size = "md", showName = true }: WordmarkPr
   } as const;
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="Plumbline">
+    <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="VerticalPlaybook">
       <span className={cn("relative inline-flex items-center justify-center", d.container)} aria-hidden="true">
         <svg width={d.glyph} height={d.glyph * 2} viewBox={`0 0 ${d.glyph} ${d.glyph * 2}`} fill="none">
           <line
@@ -37,7 +37,7 @@ export function Wordmark({ className, size = "md", showName = true }: WordmarkPr
       </span>
       {showName && (
         <span className={cn("font-serif italic font-normal text-ink tracking-tight", textSize[size])}>
-          Plumbline
+          VerticalPlaybook
         </span>
       )}
     </span>

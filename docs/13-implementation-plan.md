@@ -1,6 +1,6 @@
 # 13 — Implementation Plan
 
-> **Hand-off ready.** This plan is for the Phase 2 implementation agent picking up Plumbline after Wave 2's marketing landing has shipped. You will find: (a) deployed landing at `https://industry-process-templates.prin7r.com` with NOWPayments hosted-invoice checkout wired and verified twice (Single Bundle iid 5314388447, Vertical Pack iid 6102272898); (b) brand identity / audience / architecture in `/docs/01..10-*.md`; (c) the user-story contract in `/docs/11-user-stories-and-scenarios.md` (12 stories spanning HVAC / dental / marketing-agency / accounting verticals, three tiers Single / Vertical Pack / Reseller); (d) the technical spec in `/docs/12-technical-specification.md` (catalog + delivery + license + n8n integration + Wasp open-saas dashboard). Wave 3 brings the SaaS app online: customer dashboard, license-bound delivery, n8n install tokens, bundle update subscriptions. Read docs 11 + 12 before any phase. Plumbline's hardest engineering problem is **the n8n install-token UX** — buyers should one-click their bundled flows into their own n8n workspace; getting that frictionless is the difference between a $249 and a $1,490 buyer.
+> **Hand-off ready.** This plan is for the Phase 2 implementation agent picking up VerticalPlaybook after Wave 2's marketing landing has shipped. You will find: (a) deployed landing at `https://industry-process-templates.prin7r.com` with NOWPayments hosted-invoice checkout wired and verified twice (Single Bundle iid 5314388447, Vertical Pack iid 6102272898); (b) brand identity / audience / architecture in `/docs/01..10-*.md`; (c) the user-story contract in `/docs/11-user-stories-and-scenarios.md` (12 stories spanning HVAC / dental / marketing-agency / accounting verticals, three tiers Single / Vertical Pack / Reseller); (d) the technical spec in `/docs/12-technical-specification.md` (catalog + delivery + license + n8n integration + Wasp open-saas dashboard). Wave 3 brings the SaaS app online: customer dashboard, license-bound delivery, n8n install tokens, bundle update subscriptions. Read docs 11 + 12 before any phase. VerticalPlaybook's hardest engineering problem is **the n8n install-token UX** — buyers should one-click their bundled flows into their own n8n workspace; getting that frictionless is the difference between a $249 and a $1,490 buyer.
 
 ---
 
@@ -117,7 +117,7 @@
 1. Persist orders + licenses on verified IPN.
 2. `POST /api/admin/orders/:orderId/refund` records refund + revokes license.
 3. n8n install tokens: customer goes Dashboard → Bundle → "Install n8n flows." Form: paste their n8n base URL + API key. Server validates, then installs each `n8n-flows/*.json` via n8n API. Returns `{ installedCount }`.
-4. Notion sync: paid orders → Notion data source `Plumbline Orders` (DSID in `NOTION_ORDERS_DSID`).
+4. Notion sync: paid orders → Notion data source `VerticalPlaybook Orders` (DSID in `NOTION_ORDERS_DSID`).
 5. Vertical-request endpoint: `POST /api/vertical-requests` body `{ vertical, businessShape, email }`. Stored + emailed to product team.
 
 **Effort.** L — 150-250 tool-uses, 3-4 days.
@@ -155,7 +155,7 @@
 **DoD.**
 - [ ] Idempotency: same checkout body 5x = ONE invoice + ONE license.
 - [ ] Forged IPN bad sig = 401, no license issued.
-- [ ] Slack `#alerts-plumbline` receives test messages.
+- [ ] Slack `#alerts-verticalplaybook` receives test messages.
 - [ ] CSP header on every response.
 - [ ] S3 outage simulation: license issuance retries successfully on recovery.
 
