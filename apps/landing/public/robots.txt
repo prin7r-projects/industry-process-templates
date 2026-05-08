@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://industry-process-templates.prin7r.com/sitemap.xml
