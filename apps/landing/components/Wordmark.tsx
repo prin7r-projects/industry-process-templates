@@ -32,7 +32,7 @@ export function Wordmark({ className, size = "md", showName = true }: WordmarkPr
             stroke="currentColor"
             strokeWidth="1"
           />
-          <circle cx={d.glyph / 2} cy={d.glyph * 2 - d.dot} r={d.dot} fill="#C8472B" />
+          <circle cx={d.glyph / 2} cy={d.glyph * 2 - d.dot} r={d.dot} fill="#D04841" />
         </svg>
       </span>
       {showName && (

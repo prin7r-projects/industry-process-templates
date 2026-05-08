@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
-import { Source_Serif_4, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const serif = Source_Serif_4({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-serif",
-  weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
-});
-
+/*
+ * Wave 2 design refresh 2026-05-08 — Source Serif 4 is dropped.
+ * Tailscale's Cloud-Control-Panel reference is sans-throughout (Inter
+ * across all body + display use cases, JetBrains Mono for plate
+ * captions and tabular numerals). The `font-serif` token in
+ * tailwind.config.ts now also resolves to Inter so existing components
+ * with the `font-serif` class keep working but render in Inter.
+ */
 const sans = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
 });
+
+// `font-serif` Tailwind class is preserved for backwards compatibility
+// in component class lists; it resolves to Inter via tailwind.config.ts.
+const serif = sans;
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -65,7 +69,7 @@ export default function RootLayout({
         <link
           rel="icon"
           type="image/svg+xml"
-          href="data:image/svg+xml;utf8,%3Csvg viewBox=%270 0 32 32%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23FAFAF8%27/%3E%3Cline x1=%2716%27 y1=%274%27 x2=%2716%27 y2=%2722%27 stroke=%27%231A1A18%27 stroke-width=%271.5%27/%3E%3Ccircle cx=%2716%27 cy=%2725%27 r=%274%27 fill=%27%23C8472B%27/%3E%3C/svg%3E"
+          href="data:image/svg+xml;utf8,%3Csvg viewBox=%270 0 32 32%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23FAFAF8%27/%3E%3Cline x1=%2716%27 y1=%274%27 x2=%2716%27 y2=%2722%27 stroke=%27%23181717%27 stroke-width=%271.5%27/%3E%3Ccircle cx=%2716%27 cy=%2725%27 r=%274%27 fill=%27%23D04841%27/%3E%3C/svg%3E"
         />
       </head>
       <body className="bg-paper text-ink antialiased">

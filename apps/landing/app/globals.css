@@ -2,20 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Plumbline — Wave 2 design refresh 2026-05-08
+ * Reference: tailscale (Cloud control panel on pristine paper)
+ * Theme: light · spacious bright canvas with strong dark typography,
+ * subtly elevated soft-shadow surfaces, single confident red accent
+ * Token NAMES preserved (paper/paper-2/ink/graphite/rule/cinnabar/ochre/success)
+ * for component-level continuity; values remapped to the tailscale palette.
+ * Per user's no-beige rule, page canvas stays milky #FAFAF8 — we keep
+ * the reference's typography, components, and shadow language but use
+ * a slightly cooler off-white than the ref's Canvas Pale #EEEBEA.
+ */
 @layer base {
   :root {
-    --paper: #FAFAF8;
-    --paper-2: #F2F1EC;
-    --ink: #1A1A18;
-    --graphite: #444441;
-    --graphite-2: #7A7975;
-    --rule: #D7D5CD;
-    --rule-2: #E6E4DC;
-    --cinnabar: #C8472B;
-    --cinnabar-deep: #A53618;
-    --cinnabar-wash: #F6E4DD;
-    --ochre: #B98B2E;
-    --success: #3B7A4C;
+    --paper: #FAFAF8;          /* page canvas — milky white (no beige) */
+    --paper-2: #F7F5F4;        /* surface frost (alt section / nav) */
+    --ink: #181717;            /* graphite black — primary text */
+    --graphite: #2E2D2D;       /* storm gray — secondary body */
+    --graphite-2: #575555;     /* stone gray — tertiary helper text */
+    --rule: #D5D3D2;           /* cloud mist — 1px hairline borders */
+    --rule-2: #E8E5E3;         /* lighter rule — recessed dividers */
+    --cinnabar: #D04841;       /* action red — primary CTA, accent */
+    --cinnabar-deep: #A03A33;  /* darker action red (hover) */
+    --cinnabar-wash: #F8E6E5;  /* very light red wash — featured tier */
+    --ochre: #5A82DE;          /* action blue gradient start — secondary tactical highlight */
+    --success: #2D7A4F;        /* kept — confirmation green */
   }
 
   html {
@@ -29,14 +40,15 @@
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--ink);
     background: var(--paper);
+    letter-spacing: -0.012em;
   }
 
   ::selection {
     background: var(--cinnabar);
-    color: var(--paper);
+    color: #FFFFFF;
   }
 
   *:focus-visible {
@@ -83,7 +95,7 @@
   }
 
   .section-rhythm {
-    padding-block: clamp(80px, 10vw, 128px);
+    padding-block: clamp(64px, 8vw, 96px);
   }
 
   .skip-link {
@@ -91,11 +103,38 @@
     top: -100px;
     left: 16px;
     background: var(--ink);
-    color: var(--paper);
+    color: #ffffff;
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     z-index: 100;
     transition: top 200ms ease-out;
   }
   .skip-link:focus { top: 16px; }
+
+  /* Tailscale-style soft-shadow surfaces — added in 2026-05-08 refresh */
+  .surface-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: rgba(24, 23, 23, 0.02) 0px 4px 8px 0px;
+  }
+  .surface-card-lg {
+    background: #FFFFFF;
+    border-radius: 32px;
+    box-shadow: rgba(24, 23, 23, 0.02) 0px 4px 8px 0px;
+  }
+
+  /* Tailscale tag — pill informational label */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #FFFFFF;
+    color: var(--graphite);
+    border: 1px solid var(--paper-2);
+    border-radius: 9999px;
+    padding: 4px 18px;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
 }

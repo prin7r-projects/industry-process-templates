@@ -89,7 +89,7 @@ function SOPBlueprintFigure() {
                   <span className="text-graphite"> — {s.body}</span>
                 </p>
                 {s.callout && (
-                  <p className="mt-2 plate-caption text-ochre" style={{ color: "#B98B2E" }}>
+                  <p className="mt-2 plate-caption text-ochre">
                     {s.callout}
                   </p>
                 )}
