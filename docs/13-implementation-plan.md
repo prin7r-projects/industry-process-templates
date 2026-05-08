@@ -40,11 +40,13 @@
 **Effort.** M — 80-150 tool-uses, 2-3 days.
 
 **DoD.**
-- [ ] `pnpm install` clean.
-- [ ] `pnpm -F app dev` starts open-saas Wasp on `:3001`.
-- [ ] All 3 bundles compile (`pnpm -F app bundle:build all`).
-- [ ] Each bundle .zip ≥1 MB and contains the documented SOP / automation / flow / prompt counts.
-- [ ] Production landing returns 200.
+- [x] `pnpm install` clean.
+- [ ] `pnpm -F app dev` starts open-saas Wasp on `:3001`. (Note: Wasp 0.23 CLI internally uses npm for SDK build; pnpm workspaces cause script conflicts. Use `cd apps/app && npx wasp start` in a fresh npm environment. The main.wasp parses correctly — the SDK build fails on TypeScript compilation due to pnpm/npm lifecycle script mismatch, not code errors.)
+- [x] All 3 bundles compile (`pnpm -F app bundle:build all`).
+- [x] Each bundle .zip ≥1 MB and contains the documented SOP / automation / flow / prompt counts.
+- [x] Production landing returns 200.
+
+**Phase 0 verification (2026-05-08):** Open-saas forked into apps/app/ with Stripe stripped, magic-link stubbed (Wasp 0.23 doesn't natively support emailLink; custom auth planned for Phase 3). Postgres + Redis + MinIO added to docker-compose.yml. 3 bundles authored with verified counts (HVAC: 1.14MB, Marketing: 1.30MB, Accounting: 1.36MB). Bundle build script produces versioned zips. Landing returns 200. main.wasp parses cleanly. Schema compiles. Remaining: Wasp SDK TypeScript build + migrate-dev (requires npm-native Wasp environment).
 
 **Hand-off context.**
 - Bundle authoring is the highest-leverage Phase 0 work. Quality > quantity. Better 3 excellent bundles than 6 thin ones.

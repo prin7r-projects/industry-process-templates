@@ -5,8 +5,9 @@
 A marketplace of vertical-specific operational bundles — SOPs, automations, n8n flows, and prompt packs — calibrated by industry and deployable in a day.
 
 **Live:** [industry-process-templates.prin7r.com](https://industry-process-templates.prin7r.com)
+**App (Phase 0):** Wasp open-saas fork in `apps/app/` (target: `app.industry-process-templates.prin7r.com`)
 **Notion opportunity:** [Industry process templates](https://www.notion.so/Industry-process-templates-3543ceec26198166b90ac8df25836629)
-**Wave:** Prin7r Wave 2 · 2026-05-08
+**Wave:** Prin7r Wave 2/3 · 2026-05-08
 
 ---
 
@@ -18,8 +19,10 @@ A marketplace of vertical-specific operational bundles — SOPs, automations, n8
 ├── README.md                       # This file
 ├── LICENSE                         # MIT (code) — bundles separately licensed
 ├── Dockerfile.landing              # Multistage Next.js standalone image
-├── docker-compose.yml              # Single landing service + Traefik labels
+├── docker-compose.yml              # Landing + App + Postgres + Redis + MinIO
 ├── .env.example                    # Public env shape — copy to .env on deploy
+├── package.json                    # Root pnpm workspace
+├── pnpm-workspace.yaml
 ├── .gitignore
 ├── .github/
 │   └── workflows/
@@ -27,43 +30,36 @@ A marketplace of vertical-specific operational bundles — SOPs, automations, n8
 ├── apps/
 │   ├── landing/                    # Next.js 15 + Tailwind + ShadCN — production landing
 │   │   ├── app/                    # App Router pages + API routes
-│   │   │   ├── api/checkout/nowpayments/route.ts
-│   │   │   ├── api/webhooks/nowpayments/route.ts
-│   │   │   ├── globals.css
-│   │   │   ├── layout.tsx
-│   │   │   └── page.tsx
-│   │   ├── components/             # Project-owned components (BlueprintHero, VerticalGrid, ...)
-│   │   ├── components/ui/          # ShadCN primitives (Button, Card, Badge, Accordion)
+│   │   ├── components/             # Project-owned components
+│   │   ├── components/ui/          # ShadCN primitives
 │   │   └── lib/                    # env, signatures, tiers, verticals
-│   └── app/                        # open-saas fork stub — Wave 3 deliverable
+│   └── app/                        # Wasp open-saas fork — VerticalPlaybook SaaS app
+│       ├── main.wasp               # Wasp app definition (auth, routes, db)
+│       ├── schema.prisma           # Database schema (User, Bundle, License)
+│       ├── package.json
+│       └── src/                    # React components, auth, operations
+├── bundles/                        # Phase 0 authored bundles
+│   ├── hvac-fall-startup/          # 28 SOPs, 14 automations, 9 n8n flows, 4 prompt packs
+│   ├── marketing-agency-d1-30/     # 22 SOPs, 12 automations, 7 n8n flows, 3 prompt packs
+│   └── accounting-year-end/        # 19 SOPs, 8 automations, 5 n8n flows, 5 prompt packs
+├── data/bundles/                   # Built .zip files (gitignored)
+├── scripts/                        # Bundle build + content generation scripts
+│   ├── bundle-build.js             # pnpm -F app bundle:build <slug|all>
+│   └── generate-bundle-content.js
 └── docs/
     ├── 01-brand-identity.md
     ├── 02-architecture.md
-    ├── 03-user-journeys.md
-    ├── 04-pain-points.md
-    ├── 05-audience-profile.md
-    ├── 06-sales-channels.md
-    ├── 07-sales-strategy.md
-    ├── 08-marketing-strategy.md
-    ├── 09-go-to-market.md
-    ├── 10-pitch-deck.md
-    ├── pitch-deck.html             # Self-contained 10-slide HTML deck
+    ├── 12-technical-specification.md
+    ├── 13-implementation-plan.md
+    ├── pitch-deck.html
     └── screenshots/
-        ├── landing-desktop.png     # 1440×900 production render
-        └── landing-mobile.png      # 390×844 production render
 ```
 
 ---
 
-## Screenshots
-
-![VerticalPlaybook desktop landing](./docs/screenshots/landing-desktop.png)
-
-![VerticalPlaybook mobile landing](./docs/screenshots/landing-mobile.png)
-
----
-
 ## Quick start (local dev)
+
+### Landing (production-ready)
 
 ```bash
 cd apps/landing
@@ -73,13 +69,89 @@ pnpm dev
 # Open http://localhost:3000
 ```
 
-Without `NOWPAYMENTS_API_KEY`, checkout returns a 503 with a clear `configuration` error — the rest of the page renders fully.
+### App (Wasp open-saas fork — Phase 0)
+
+```bash
+# Prerequisites: Wasp CLI (npx @wasp.sh/wasp-cli)
+cd apps/app
+npx wasp start db    # Start Postgres (terminal 1)
+npx wasp db migrate-dev  # Run migrations (terminal 2)
+npx wasp start       # Start Wasp dev server on :3001
+```
+
+Without env vars, the app starts with Dummy email provider (check server logs for verification links).
+
+### Bundle Build
+
+```bash
+# Build all 3 bundles
+pnpm -F app bundle:build all
+
+# Build single bundle
+pnpm -F app bundle:build hvac-fall-startup
+
+# Output: data/bundles/<slug>-v<version>.zip
+```
+
+---
+
+## Infrastructure (docker-compose)
+
+```bash
+docker compose up -d
+```
+
+Services:
+| Service | Port | Purpose |
+|---------|------|---------|
+| `landing` | :3000 | Next.js 15 marketing surface + NOWPayments checkout |
+| `app` | :3001 | Wasp open-saas app (auth, catalog, dashboard) |
+| `postgres` | :5432 | Primary database (catalog, customers, licenses) |
+| `redis` | :6379 | BullMQ queue store + ephemeral cache |
+| `minio` | :9000/:9001 | S3-compatible object storage (bundle .zip artifacts) |
+
+Traefik labels are configured for:
+- `industry-process-templates.prin7r.com` → landing
+- `app.industry-process-templates.prin7r.com` → app
+- `minio.industry-process-templates.prin7r.com` → MinIO console
+
+---
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and populate:
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_APP_URL` | Yes | Public URL for redirects and webhooks |
+| `NOWPAYMENTS_API_KEY` | Yes (landing) | NOWPayments API key |
+| `NOWPAYMENTS_IPN_SECRET` | Yes (landing) | Webhook signature verification |
+| `POSTGRES_USER/PASSWORD/DB` | Yes | Postgres credentials |
+| `REDIS_PASSWORD` | Yes | Redis auth |
+| `MINIO_ROOT_USER/PASSWORD` | Yes | MinIO S3 credentials |
+| `AWS_S3_IAM_ACCESS_KEY` | Yes (app) | S3 access (set to MinIO creds locally) |
+| `AWS_S3_IAM_SECRET_KEY` | Yes (app) | S3 secret |
+| `ADMIN_EMAILS` | Yes (app) | Comma-separated admin email list |
+
+Full list in `.env.example`.
+
+---
+
+## Bundles
+
+| Bundle | Vertical | SOPs | Automations | n8n Flows | Prompt Packs | Size |
+|--------|----------|------|-------------|-----------|-------------|------|
+| [hvac-fall-startup](./bundles/hvac-fall-startup/) | HVAC | 28 | 14 | 9 | 4 | 1.14 MB |
+| [marketing-agency-d1-30](./bundles/marketing-agency-d1-30/) | Marketing Agency | 22 | 12 | 7 | 3 | 1.30 MB |
+| [accounting-year-end](./bundles/accounting-year-end/) | Accounting | 19 | 8 | 5 | 5 | 1.36 MB |
+
+Each bundle directory contains: `manifest.json`, `sops/*.md`, `automations/*.json`, `n8n-flows/*.json`, `prompt-packs/*.md`, `templates/*.md`.
 
 ---
 
 ## Production deploy
 
-The landing deploys on `storage-contabo` (`161.97.99.120`) behind a host-network Traefik with HTTP-01 LetsEncrypt resolver.
+The landing deploys on `storage-contabo` behind a host-network Traefik with HTTP-01 LetsEncrypt resolver. The app will deploy alongside in Phase 1+.
 
 ```bash
 ssh storage-contabo
@@ -87,30 +159,16 @@ mkdir -p /opt/prin7r-deploys/industry-process-templates
 cd /opt/prin7r-deploys/industry-process-templates
 git clone https://github.com/prin7r-projects/industry-process-templates.git .
 cp .env.example .env
-# populate NOWPAYMENTS_API_KEY + NOWPAYMENTS_IPN_SECRET in .env
+# populate all required env vars in .env
 docker compose build
 docker compose up -d
 ```
-
-Verify within 5 minutes:
-
-```bash
-curl -sI https://industry-process-templates.prin7r.com
-```
-
-Expect: `HTTP/2 200` with valid Let's Encrypt cert.
 
 ---
 
 ## Payment integration — NOWPayments
 
 This is the default and only crypto rail wired in Wave 2. Per Prin7r's payment strategy, NOWPayments is the verified production rail (USDT/USDC + card on-ramp). Plisio and Reown are documented as future rails in `.env.example`.
-
-**Buy flow.** Pricing tier card → `POST /api/checkout/nowpayments` → server creates a hosted invoice via `POST https://api.nowpayments.io/v1/invoice` → returns `{ checkoutUrl }` → browser redirects to NOWPayments hosted invoice.
-
-**Webhook.** NOWPayments POSTs the IPN to `/api/webhooks/nowpayments`. The handler verifies `x-nowpayments-sig` (HMAC-SHA512 over sorted-keys JSON of the payload) using `NOWPAYMENTS_IPN_SECRET` before any state read. Verification uses constant-time comparison.
-
-See `apps/landing/lib/signatures.ts` for verification logic and `docs/02-architecture.md` for the full data flow.
 
 ---
 

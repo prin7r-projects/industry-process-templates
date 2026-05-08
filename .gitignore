@@ -39,3 +39,12 @@ coverage/
 
 # Local notes
 NOTES.local.md
+
+# Bundle build output
+data/bundles/
+
+# Wasp generated output
+.wasp/
+
+# Temp npm artifacts
+package-lock.json

@@ -1,0 +1,18 @@
+{
+  "name": "industry-process-templates",
+  "private": true,
+  "scripts": {
+    "install:all": "pnpm install",
+    "dev:landing": "pnpm -F landing dev",
+    "dev:app": "pnpm -F app dev",
+    "build:landing": "pnpm -F landing build",
+    "bundle:build": "pnpm -F app bundle:build",
+    "bundle:build:all": "pnpm -F app bundle:build all"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "husky": "^9.1.7"
+  }
+}
