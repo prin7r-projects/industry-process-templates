@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: #FAFAF8;
+    --paper-2: #F2F1EC;
+    --ink: #1A1A18;
+    --graphite: #444441;
+    --graphite-2: #7A7975;
+    --rule: #D7D5CD;
+    --rule-2: #E6E4DC;
+    --cinnabar: #C8472B;
+    --cinnabar-deep: #A53618;
+    --cinnabar-wash: #F6E4DD;
+    --ochre: #B98B2E;
+    --success: #3B7A4C;
+  }
+
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  ::selection {
+    background: var(--cinnabar);
+    color: var(--paper);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--cinnabar);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .plate-caption {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  .hairline {
+    border-color: var(--rule);
+  }
+
+  .container-page {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 64px);
+  }
+
+  .container-wide {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 64px);
+  }
+
+  .section-rhythm {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 4px;
+    z-index: 100;
+    transition: top 200ms ease-out;
+  }
+  .skip-link:focus { top: 16px; }
+}
