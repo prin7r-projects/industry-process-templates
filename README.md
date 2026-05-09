@@ -35,7 +35,7 @@ A marketplace of vertical-specific operational bundles — SOPs, automations, n8
 │   │   └── lib/                    # env, signatures, tiers, verticals
 │   └── app/                        # Wasp open-saas fork — VerticalPlaybook SaaS app
 │       ├── main.wasp               # Wasp app definition (auth, routes, db)
-│       ├── schema.prisma           # Database schema (User, Bundle, License)
+│       ├── schema.prisma           # Database schema (Vertical, Bundle, BundleVersion, Template, Order, License, etc.)
 │       ├── package.json
 │       └── src/                    # React components, auth, operations
 ├── bundles/                        # Phase 0 authored bundles
@@ -132,6 +132,10 @@ Copy `.env.example` to `.env` and populate:
 | `AWS_S3_IAM_ACCESS_KEY` | Yes (app) | S3 access (set to MinIO creds locally) |
 | `AWS_S3_IAM_SECRET_KEY` | Yes (app) | S3 secret |
 | `ADMIN_EMAILS` | Yes (app) | Comma-separated admin email list |
+| `DELIVERY_SIGNING_KEY` | Yes (app) | HMAC-SHA256 secret for download token signing |
+| `ADMIN_API_KEY` | Yes (app) | Bearer auth key for admin endpoints (license revocation) |
+| `S3_ENDPOINT` | No | MinIO/S3 endpoint override (default: AWS) |
+| `S3_FORCE_PATH_STYLE` | No | Set `true` for MinIO path-style addressing |
 
 Full list in `.env.example`.
 
@@ -146,6 +150,59 @@ Full list in `.env.example`.
 | [accounting-year-end](./bundles/accounting-year-end/) | Accounting | 19 | 8 | 5 | 5 | 1.36 MB |
 
 Each bundle directory contains: `manifest.json`, `sops/*.md`, `automations/*.json`, `n8n-flows/*.json`, `prompt-packs/*.md`, `templates/*.md`.
+
+---
+
+## Catalog API (Phase 1)
+
+Public REST API for browsing verticals and bundles. No auth required.
+
+Base URL: `https://app.industry-process-templates.prin7r.com/api/v1`
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/catalog/verticals` | GET | List all verticals with summary counts |
+| `/catalog/verticals/:slug` | GET | Single vertical with bundles + sample SOPs |
+| `/catalog/verticals/:slug/bundles` | GET | Bundle summaries for a vertical |
+| `/catalog/bundles/:slug` | GET | Full bundle manifest + version + pricing + fit definition |
+| `/catalog/bundles/:slug/versions` | GET | All published versions for a bundle |
+
+All catalog endpoints include `Cache-Control: public, max-age=300, stale-while-revalidate=900`.
+
+Response shape (all endpoints): `{ data, error }`. Error objects include a stable `error.code` string.
+
+### License & Delivery Flow
+
+**Issue license** (on verified payment):
+```
+POST /api/v1/licenses/issue
+Body: { orderId, bundleVersionId, licenseKind? }
+→ { licenseKey, downloadToken, downloadUrl, expiresAt }
+```
+
+**Download bundle** (single-use token):
+```
+GET /api/v1/delivery/:tokenId
+→ Streams bundle .zip from S3 (Phase 3)
+→ 410 Gone on second use or expired token
+→ 403 Forbidden if license revoked
+```
+
+**Refresh download token**:
+```
+POST /api/v1/delivery/refresh-token
+Body: { licenseId }
+→ Mints fresh 24h download token
+```
+
+**Revoke license** (admin):
+```
+POST /api/v1/admin/licenses/:licenseId/revoke
+Authorization: Bearer <ADMIN_API_KEY>
+Body: { reason? }
+```
+
+Download tokens are HMAC-SHA256 signed with `DELIVERY_SIGNING_KEY` and use timing-safe comparison.
 
 ---
 

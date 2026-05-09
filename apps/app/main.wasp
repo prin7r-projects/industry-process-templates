@@ -54,8 +54,10 @@ app VerticalPlaybook {
   db: {
     // Run `wasp db seed` to seed the database with the seed functions below:
     seeds: [
-      // Populates the database with a bunch of fake users to work with during development.
+      // Populates the database with mock users for development.
       import { seedMockUsers } from "@src/server/scripts/dbSeeds",
+      // Populates Vertical, Bundle, BundleVersion, and Template from /bundles/*/manifest.json.
+      import { seedCatalog } from "@src/server/scripts/catalogSeed",
     ]
   },
 
@@ -148,6 +150,85 @@ page CatalogPage {
 route BundleDetailRoute { path: "/catalog/:slug", to: BundleDetailPage }
 page BundleDetailPage {
   component: import { BundleDetailPage } from "@src/bundles/BundleDetailPage"
+}
+//#endregion
+
+//#region Catalog API (Phase 1 — public, no auth)
+// GET /api/v1/catalog/verticals
+api catalogVerticals {
+  fn: import { catalogVerticals } from "@src/server/catalog/operations",
+  entities: [Vertical, Bundle, BundleVersion, Template],
+  httpRoute: (GET, "/api/v1/catalog/verticals")
+}
+
+// GET /api/v1/catalog/verticals/:slug
+api catalogVerticalBySlug {
+  fn: import { catalogVerticalBySlug } from "@src/server/catalog/operations",
+  entities: [Vertical, Bundle, BundleVersion, Template],
+  httpRoute: (GET, "/api/v1/catalog/verticals/:slug")
+}
+
+// GET /api/v1/catalog/verticals/:slug/bundles
+api catalogVerticalBundles {
+  fn: import { catalogVerticalBundles } from "@src/server/catalog/operations",
+  entities: [Vertical, Bundle, BundleVersion, Template],
+  httpRoute: (GET, "/api/v1/catalog/verticals/:slug/bundles")
+}
+
+// GET /api/v1/catalog/bundles/:slug
+api catalogBundleBySlug {
+  fn: import { catalogBundleBySlug } from "@src/server/catalog/operations",
+  entities: [Vertical, Bundle, BundleVersion, Template],
+  httpRoute: (GET, "/api/v1/catalog/bundles/:slug")
+}
+
+// GET /api/v1/catalog/bundles/:slug/versions
+api catalogBundleVersions {
+  fn: import { catalogBundleVersions } from "@src/server/catalog/operations",
+  entities: [Bundle, BundleVersion],
+  httpRoute: (GET, "/api/v1/catalog/bundles/:slug/versions")
+}
+
+// Catalog API namespace — enables CORS for all /api/v1/catalog routes
+apiNamespace catalogApi {
+  middlewareConfigFn: import { catalogApiMiddleware } from "@src/server/catalog/middleware",
+  path: "/api/v1/catalog"
+}
+//#endregion
+
+//#region License & Delivery API (Phase 1)
+// POST /api/v1/licenses/issue — issue license on verified payment
+api issueLicense {
+  fn: import { issueLicense } from "@src/server/license/operations",
+  entities: [License, Order, BundleVersion, User],
+  httpRoute: (POST, "/api/v1/licenses/issue")
+}
+
+// GET /api/v1/delivery/:tokenId — download bundle artifact (single-use token)
+api downloadBundle {
+  fn: import { downloadBundle } from "@src/server/license/operations",
+  entities: [License, BundleVersion],
+  httpRoute: (GET, "/api/v1/delivery/:tokenId")
+}
+
+// POST /api/v1/delivery/refresh-token — mint fresh download token
+api refreshDownloadToken {
+  fn: import { refreshDownloadToken } from "@src/server/license/operations",
+  entities: [License],
+  httpRoute: (POST, "/api/v1/delivery/refresh-token")
+}
+
+// POST /api/v1/admin/licenses/:licenseId/revoke — admin revoke license
+api revokeLicense {
+  fn: import { revokeLicense } from "@src/server/license/operations",
+  entities: [License],
+  httpRoute: (POST, "/api/v1/admin/licenses/:licenseId/revoke")
+}
+
+// License/delivery API namespace — CORS config
+apiNamespace licenseApi {
+  middlewareConfigFn: import { licenseApiMiddleware } from "@src/server/license/middleware",
+  path: "/api/v1"
 }
 //#endregion
 

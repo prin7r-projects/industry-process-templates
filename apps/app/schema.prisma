@@ -7,6 +7,8 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// ─── Auth & User (Wasp managed) ───────────────────────────────────────────────
+
 model User {
   id                        String          @id @default(uuid())
   createdAt                 DateTime        @default(now())
@@ -15,47 +17,203 @@ model User {
   username                  String?         @unique
   isAdmin                   Boolean         @default(false)
 
+  // Extended customer profile (doc 12 §2)
+  authProvider              String?         // magic_link | password | oauth_google
+  profile                   Json?           // flexible customer metadata
+
+  // Relations
   contactFormMessages       ContactFormMessage[]
   files                     File[]
+  orders                    Order[]
+  subscriptions             Subscription[]
 }
 
-// Bundle catalog: a vertical-industry playbook bundle
+// ─── Catalog Domain (doc 12 §2) ───────────────────────────────────────────────
+
+model Vertical {
+  slug                      String          @id
+  name                      String
+  fitDefinition             String?         @db.Text
+  metadata                  Json?
+  createdAt                 DateTime        @default(now())
+
+  bundles                   Bundle[]
+  subscriptions             Subscription[]
+}
+
 model Bundle {
+  slug                      String          @id
+  createdAt                 DateTime        @default(now())
+
+  verticalSlug              String
+  vertical                  Vertical        @relation(fields: [verticalSlug], references: [slug])
+
+  title                     String
+  description               String?         @db.Text
+
+  // Denormalized counts for catalog display
+  sopCount                  Int             @default(0)
+  automationCount           Int             @default(0)
+  n8nFlowCount              Int             @default(0)
+  promptPackCount           Int             @default(0)
+
+  versions                  BundleVersion[]
+}
+
+model BundleVersion {
+  id                        String          @id @default(uuid())
+  bundleSlug                String
+  bundle                    Bundle          @relation(fields: [bundleSlug], references: [slug])
+
+  semver                    String          // e.g. "1.0.0"
+  changelog                 Json?           // array of { type, message }
+  isBreaking                Boolean         @default(false)
+  artifactS3Key             String?         // S3 key for the bundle .zip
+  artifactSize              Int             @default(0) // bytes
+  publishedAt               DateTime        @default(now())
+
+  templates                 Template[]
+  licenses                  License[]
+
+  @@unique([bundleSlug, semver])
+}
+
+model Template {
+  id                        String          @id @default(uuid())
+  bundleVersionId           String
+  bundleVersion             BundleVersion   @relation(fields: [bundleVersionId], references: [id])
+
+  kind                      String          // sop | automation | n8n_flow | prompt_pack
+  title                     String
+  s3Key                     String?         // individual file key in S3
+  metadata                  Json?
+
+  blob                      TemplateBlob?
+  activations               Activation[]
+}
+
+model TemplateBlob {
+  id                        String          @id @default(uuid())
+  templateId                String          @unique
+  template                  Template        @relation(fields: [templateId], references: [id])
+
+  contentMd                 String?         @db.Text   // markdown for SOPs/prompts
+  contentJson               Json?           // JSON for n8n flows/automations
+}
+
+// ─── Commerce (doc 12 §2) ─────────────────────────────────────────────────────
+
+model Order {
   id                        String          @id @default(uuid())
   createdAt                 DateTime        @default(now())
-  updatedAt                 DateTime        @updatedAt
 
-  slug                      String          @unique
-  vertical                  String
-  name                      String
-  description               String
-  version                   String          @default("1.0.0")
-  sopCount                  Int
-  automationCount           Int
-  n8nFlowCount              Int
-  promptPackCount           Int
-  zipSize                   Int             @default(0)
-  s3Key                     String?
+  customerId                String
+  customer                  User            @relation(fields: [customerId], references: [id])
+
+  tier                      String          // single_bundle | vertical_pack | enterprise
+  nowpaymentsInvoiceId      String?         @unique
+  status                    String          @default("pending") // pending | paid | failed | refunded
+  amountUsd                 Float?
+  payCurrency               String?
+  refSource                 String?
+  paidAt                    DateTime?
+
+  licenses                  License[]
+  subscription              Subscription?
+  refundEvents              RefundEvent[]
+}
+
+model Subscription {
+  id                        String          @id @default(uuid())
+
+  customerId                String
+  customer                  User            @relation(fields: [customerId], references: [id])
+
+  orderId                   String          @unique
+  order                     Order           @relation(fields: [orderId], references: [id])
+
+  verticalSlug              String
+  vertical                  Vertical        @relation(fields: [verticalSlug], references: [slug])
+
+  status                    String          @default("active") // active | expired | cancelled
+  expiresAt                 DateTime?
+  lastSeenUpdateAt          DateTime?
 
   licenses                  License[]
 }
 
-// License: issued on payment; grants download access
 model License {
   id                        String          @id @default(uuid())
   createdAt                 DateTime        @default(now())
 
-  user                      User            @relation(fields: [userId], references: [id])
-  userId                    String
+  orderId                   String
+  order                     Order           @relation(fields: [orderId], references: [id])
 
-  bundle                    Bundle          @relation(fields: [bundleId], references: [id])
-  bundleId                  String
+  subscriptionId            String?
+  subscription              Subscription?   @relation(fields: [subscriptionId], references: [id])
 
-  tokenId                   String          @unique
-  downloadedAt              DateTime?
+  bundleVersionId           String
+  bundleVersion             BundleVersion   @relation(fields: [bundleVersionId], references: [id])
+
+  licenseKey                String          @unique // UUID v7
+  licenseKind               String          @default("single_user") // single_user | org_100
+  status                    String          @default("active") // active | revoked | expired
   expiresAt                 DateTime?
-  isRevoked                 Boolean         @default(false)
+  metadata                  Json?
+
+  // Download / delivery tracking
+  downloadTokenId           String?         @unique // current single-use download token
+  downloadTokenExpiresAt    DateTime?
+  downloadedAt              DateTime?
+
+  activations               Activation[]
 }
+
+model Activation {
+  id                        String          @id @default(uuid())
+
+  licenseId                 String
+  license                   License         @relation(fields: [licenseId], references: [id])
+
+  templateId                String
+  template                  Template        @relation(fields: [templateId], references: [id])
+
+  status                    String          @default("installed") // installed | active | broken
+  installedAt               DateTime        @default(now())
+  activatedAt               DateTime?
+  lastSeenAt                DateTime?
+
+  @@unique([licenseId, templateId])
+}
+
+model RefundEvent {
+  id                        String          @id @default(uuid())
+  requestedAt               DateTime        @default(now())
+
+  orderId                   String
+  order                     Order           @relation(fields: [orderId], references: [id])
+
+  reason                    String          // wrong_vertical | connector_breakage | other
+  status                    String          @default("pending") // pending | completed | failed
+  amountUsd                 Float?
+  nowpaymentsPayoutId       String?
+  completedAt               DateTime?
+}
+
+// ─── Vertical Requests (doc 12 §3.7) ──────────────────────────────────────────
+
+model VerticalRequest {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  email                     String
+  verticalFreetext          String?         @db.Text
+  revenueBand               String?
+  tools                     Json?           // array of tool names
+  wouldPayUsd               Float?
+}
+
+// ─── Existing models (keep as-is) ─────────────────────────────────────────────
 
 model File {
   id                        String          @id @default(uuid())
