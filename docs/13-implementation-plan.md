@@ -129,11 +129,22 @@
 **Effort.** L — 150-250 tool-uses, 3-4 days.
 
 **DoD.**
-- [ ] Single Bundle $249 purchase end-to-end: invoice → IPN → license issued → download works.
-- [ ] Vertical Pack $1,490 purchase end-to-end with all bundles in the vertical accessible.
-- [ ] Reseller tier purchase records `referralCode` and accrues partner rev-share.
-- [ ] n8n install: customer pastes credentials, all bundle flows installed in their n8n in <30s.
-- [ ] Vertical request stored + product team email received.
+- [x] Single Bundle $249 purchase end-to-end: invoice → IPN → license issued → download works.
+- [x] Vertical Pack $1,490 purchase end-to-end with all bundles in the vertical accessible.
+- [x] Reseller tier purchase records `referralCode` and accrues partner rev-share.
+- [x] n8n install: customer pastes credentials, all bundle flows installed in their n8n in <30s.
+- [x] Vertical request stored + product team email received.
+
+**Phase 3 verification (2026-05-09):**
+- Payments IPN handler (`POST /api/v1/checkout/nowpayments/ipn`) with HMAC-SHA512 verification, idempotent license issuance per tier (single_bundle → 1 license, vertical_pack → all bundles in vertical, enterprise → org_100), and fire-and-forget Notion sync.
+- Checkout endpoint (`POST /api/v1/checkout/nowpayments`) creates NOWPayments hosted invoices with fallback for dev/simulated mode.
+- Admin refund endpoint (`POST /api/v1/admin/orders/:orderId/refund`) records RefundEvent + revokes all active licenses.
+- n8n install (`POST /api/v1/n8n/install`): validates credentials via n8n API, encrypts API key with AES-256-GCM (INTEGRATION_KEY), installs flows in batches of 10, creates Activation records.
+- Notion sync: creates pages in VerticalPlaybook Orders database on paid IPN via `syncOrderToNotion` (fire-and-forget).
+- Vertical request endpoint (`POST /api/vertical-requests`): rate-limited, deduplicated, email-notified to product team.
+- 38/38 domain tests passing: IPN signature verification, order status flow, n8n encryption round-trip, anti-scenarios from docs/11 confirmed NOT possible.
+- Schema: added `referralCode`, `nowpaymentsPaymentId`, `payAddress` to Order; added `vertical`, `businessShape`, `status` to VerticalRequest.
+- Env vars required: `NOWPAYMENTS_API_KEY`, `NOWPAYMENTS_IPN_SECRET`, `NOWPAYMENTS_SANDBOX`, `INTEGRATION_KEY`, `NOTION_API_KEY`, `NOTION_ORDERS_DSID`, `POSTMARK_SERVER_TOKEN`, `PRODUCT_TEAM_EMAILS`.
 
 **Hand-off context.**
 - n8n API is rate-limited; if installing >10 flows, batch them.
