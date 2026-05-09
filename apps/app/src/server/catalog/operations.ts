@@ -345,3 +345,74 @@ export async function catalogBundleVersions(req: any, res: any, context: Catalog
     });
   }
 }
+
+// ─── GET /api/v1/catalog/bundles/:slug/sample-sop ────────────────────────────
+//
+// Returns the first SOP template's markdown content for a bundle.
+// Used by sample-SOP marketing pages. Public, cached.
+
+export async function catalogSampleSop(req: any, res: any, context: CatalogContext) {
+  const { slug } = req.params;
+
+  try {
+    const bundle = await context.entities.Bundle.findUnique({
+      where: { slug },
+      include: {
+        vertical: true,
+        versions: {
+          orderBy: { publishedAt: "desc" },
+          take: 1,
+          include: {
+            templates: {
+              where: { kind: "sop" },
+              take: 1,
+              include: {
+                blob: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!bundle) {
+      return res.status(404).json({
+        data: null,
+        error: { code: "bundle-not-found", message: `Bundle "${slug}" not found` },
+      });
+    }
+
+    const latestVersion = bundle.versions[0];
+    const sopTemplate = latestVersion?.templates[0];
+
+    if (!sopTemplate || !sopTemplate.blob) {
+      return res.status(404).json({
+        data: null,
+        error: { code: "sop-not-found", message: "No sample SOP available for this bundle" },
+      });
+    }
+
+    const data = {
+      bundleSlug: bundle.slug,
+      bundleTitle: bundle.title,
+      verticalName: bundle.vertical.name,
+      verticalSlug: bundle.vertical.slug,
+      sopTitle: sopTemplate.title,
+      sopId: sopTemplate.id,
+      contentMd: sopTemplate.blob.contentMd,
+      sopCount: bundle.sopCount,
+      automationCount: bundle.automationCount,
+      n8nFlowCount: bundle.n8nFlowCount,
+      promptPackCount: bundle.promptPackCount,
+    };
+
+    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+    return res.json({ data, error: null });
+  } catch (error) {
+    console.error(`[catalog] GET /bundles/${slug}/sample-sop failed:`, error);
+    return res.status(500).json({
+      data: null,
+      error: { code: "internal-error", message: "Failed to fetch sample SOP" },
+    });
+  }
+}

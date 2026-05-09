@@ -141,6 +141,54 @@ page DashboardPage {
 }
 //#endregion
 
+//#region Licenses Dashboard (Phase 2)
+route LicensesRoute { path: "/app/licenses", to: LicensesPage }
+page LicensesPage {
+  authRequired: true,
+  component: import { LicensesPage } from "@src/licenses/LicensesPage"
+}
+
+route LicenseUpdateRoute { path: "/app/licenses/:id/updates", to: LicenseUpdatePage }
+page LicenseUpdatePage {
+  authRequired: true,
+  component: import { LicenseUpdatePage } from "@src/licenses/LicenseUpdatePage"
+}
+
+query getUserLicenses {
+  fn: import { getUserLicenses } from "@src/licenses/operations",
+  entities: [License, BundleVersion, Bundle, Order]
+}
+
+query getUserLicenseById {
+  fn: import { getUserLicenseById } from "@src/licenses/operations",
+  entities: [License, BundleVersion, Bundle, Template]
+}
+//#endregion
+
+//#region Sample SOP Pages (Phase 2 — public marketing)
+route SampleSopHvacRoute { path: "/sample-sop/hvac-fall-startup", to: SampleSopHvacPage }
+page SampleSopHvacPage {
+  component: import { SampleSopPage } from "@src/sample-sop/SampleSopPage"
+}
+
+route SampleSopMarketingRoute { path: "/sample-sop/marketing-agency-d1-30", to: SampleSopMarketingPage }
+page SampleSopMarketingPage {
+  component: import { SampleSopPage } from "@src/sample-sop/SampleSopPage"
+}
+
+route SampleSopAccountingRoute { path: "/sample-sop/accounting-year-end", to: SampleSopAccountingPage }
+page SampleSopAccountingPage {
+  component: import { SampleSopPage } from "@src/sample-sop/SampleSopPage"
+}
+//#endregion
+
+//#region Vertical Detail Pages (Phase 2 — public)
+route VerticalDetailRoute { path: "/vertical/:id", to: VerticalDetailPage }
+page VerticalDetailPage {
+  component: import { VerticalDetailPage } from "@src/verticals/VerticalDetailPage"
+}
+//#endregion
+
 //#region Bundles (catalog placeholder for Phase 1)
 route CatalogRoute { path: "/catalog", to: CatalogPage }
 page CatalogPage {
@@ -187,6 +235,13 @@ api catalogBundleVersions {
   fn: import { catalogBundleVersions } from "@src/server/catalog/operations",
   entities: [Bundle, BundleVersion],
   httpRoute: (GET, "/api/v1/catalog/bundles/:slug/versions")
+}
+
+// GET /api/v1/catalog/bundles/:slug/sample-sop (Phase 2 — sample SOP content)
+api catalogSampleSop {
+  fn: import { catalogSampleSop } from "@src/server/catalog/operations",
+  entities: [Bundle, BundleVersion, Template, TemplateBlob],
+  httpRoute: (GET, "/api/v1/catalog/bundles/:slug/sample-sop")
 }
 
 // Catalog API namespace — enables CORS for all /api/v1/catalog routes

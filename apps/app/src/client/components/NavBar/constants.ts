@@ -15,6 +15,7 @@ export const marketingNavigationItems: NavigationItem[] = [
 
 export const appNavigationItems: NavigationItem[] = [
   { name: "Dashboard", to: routes.DashboardRoute.to },
+  { name: "Licenses", to: "/app/licenses" },
   { name: "Catalog", to: routes.CatalogRoute.to },
   { name: "File Upload", to: routes.FileUploadRoute.to },
   ...staticNavigationItems,

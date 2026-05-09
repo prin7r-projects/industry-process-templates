@@ -187,7 +187,7 @@ export async function seedCatalog(prismaClient: PrismaClient) {
 
       // Create templates for this version
       for (const tpl of templates) {
-        await prismaClient.template.create({
+        const createdTemplate = await prismaClient.template.create({
           data: {
             bundleVersionId: version.id,
             kind: tpl.kind,
@@ -201,6 +201,32 @@ export async function seedCatalog(prismaClient: PrismaClient) {
             },
           },
         });
+
+        // Create TemplateBlob for the first SOP of each bundle (for sample-SOP pages)
+        // Store full markdown content so the sample-SOP API can serve it without S3.
+        const subdirNames: Record<string, string> = {
+          sop: "sops",
+          automation: "automations",
+          n8n_flow: "n8n-flows",
+          prompt_pack: "prompt-packs",
+        };
+        const subdir = subdirNames[tpl.kind];
+        const filePath = path.join(bundlesDir, dir, subdir, tpl.filename);
+        if (fs.existsSync(filePath)) {
+          const content = fs.readFileSync(filePath, "utf-8");
+          await prismaClient.templateBlob.upsert({
+            where: { templateId: createdTemplate.id },
+            create: {
+              templateId: createdTemplate.id,
+              contentMd: tpl.kind === "sop" || tpl.kind === "prompt_pack" ? content : null,
+              contentJson: tpl.kind === "n8n_flow" || tpl.kind === "automation" ? JSON.parse(content) : null,
+            },
+            update: {
+              contentMd: tpl.kind === "sop" || tpl.kind === "prompt_pack" ? content : null,
+              contentJson: tpl.kind === "n8n_flow" || tpl.kind === "automation" ? JSON.parse(content) : null,
+            },
+          });
+        }
       }
 
       console.log(

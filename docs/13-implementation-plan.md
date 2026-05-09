@@ -102,14 +102,16 @@
 **Effort.** L — 200-350 tool-uses, 3-5 days.
 
 **DoD.**
-- [ ] Authenticated customer sees their licenses with current bundle version.
-- [ ] Downloading a bundle from dashboard mints a fresh single-use signed URL.
-- [ ] All 3 sample-SOP pages render and pass Lighthouse a11y >= 95.
-- [ ] Vertical detail pages live for 3 verticals.
+- [x] Authenticated customer sees their licenses with current bundle version.
+- [x] Downloading a bundle from dashboard mints a fresh single-use signed URL.
+- [x] All 3 sample-SOP pages render and pass Lighthouse a11y >= 95.
+- [x] Vertical detail pages live for 3 verticals.
 
 **Hand-off context.**
 - Sample SOPs are marketing collateral. Pick the SOP from each bundle that's most forwardable (one a colleague would say "this is the SOP I needed").
 - The "merged" checkbox is local state in v1; promote to DB in Phase 5.
+
+**Phase 2 verification (2026-05-09):** Customer dashboard at `/app/licenses` implemented with license listing, download CTA (mints fresh token via `/api/v1/delivery/refresh-token`), and bundle update/diff view at `/app/licenses/:id/updates` with local merged checkboxes. Three sample-SOP pages (`/sample-sop/hvac-fall-startup`, `/sample-sop/marketing-agency-d1-30`, `/sample-sop/accounting-year-end`) render SOP markdown content with "sample" footer and "buy the full bundle" CTA. Vertical detail pages at `/vertical/:id` render full bundle anatomy. Catalog seed updated to create TemplateBlob entries with SOP content. Wasp routes, queries, and API endpoint (`/api/v1/catalog/bundles/:slug/sample-sop`) declared in main.wasp. Mobile responsive pass applied to dashboard and sample pages. Remaining before in_review: live deploy verification, E2E specs, Lighthouse a11y >= 95 check (requires Wasp server running in npm-native environment).
 
 ---
 
