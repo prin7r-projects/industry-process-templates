@@ -287,6 +287,53 @@ apiNamespace licenseApi {
 }
 //#endregion
 
+//#region Payments API (Phase 3 — NOWPayments IPN + Checkout + Refund)
+// POST /api/v1/checkout/nowpayments/ipn — NOWPayments IPN webhook
+api nowpaymentsIpn {
+  fn: import { nowpaymentsIpn } from "@src/server/payments/operations",
+  entities: [User, Order, Bundle, BundleVersion, License, Subscription],
+  httpRoute: (POST, "/api/v1/checkout/nowpayments/ipn")
+}
+
+// POST /api/v1/checkout/nowpayments — create NOWPayments invoice
+api createCheckout {
+  fn: import { createCheckout } from "@src/server/payments/operations",
+  entities: [User, Order],
+  httpRoute: (POST, "/api/v1/checkout/nowpayments")
+}
+
+// POST /api/v1/admin/orders/:orderId/refund — admin refund order
+api refundOrder {
+  fn: import { refundOrder } from "@src/server/payments/operations",
+  entities: [Order, License, RefundEvent],
+  httpRoute: (POST, "/api/v1/admin/orders/:orderId/refund")
+}
+
+// Payments API namespace — CORS
+apiNamespace paymentsApi {
+  middlewareConfigFn: import { paymentsApiMiddleware } from "@src/server/payments/middleware",
+  path: "/api/v1"
+}
+//#endregion
+
+//#region n8n Install API (Phase 3)
+// POST /api/v1/n8n/install — install n8n flows into customer's n8n workspace
+api installN8nFlows {
+  fn: import { installN8nFlows } from "@src/server/n8n/operations",
+  entities: [License, BundleVersion, Template, Activation, User],
+  httpRoute: (POST, "/api/v1/n8n/install")
+}
+//#endregion
+
+//#region Vertical Requests API (Phase 3)
+// POST /api/vertical-requests — public, capture vertical request
+api submitVerticalRequest {
+  fn: import { submitVerticalRequest } from "@src/server/vertical-requests/operations",
+  entities: [VerticalRequest],
+  httpRoute: (POST, "/api/vertical-requests")
+}
+//#endregion
+
 //#region File Upload
 route FileUploadRoute { path: "/file-upload", to: FileUploadPage }
 page FileUploadPage {

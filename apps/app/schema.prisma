@@ -112,10 +112,13 @@ model Order {
 
   tier                      String          // single_bundle | vertical_pack | enterprise
   nowpaymentsInvoiceId      String?         @unique
+  nowpaymentsPaymentId       String?         @unique
   status                    String          @default("pending") // pending | paid | failed | refunded
   amountUsd                 Float?
   payCurrency               String?
+  payAddress                String?
   refSource                 String?
+  referralCode              String?
   paidAt                    DateTime?
 
   licenses                  License[]
@@ -207,10 +210,13 @@ model VerticalRequest {
   createdAt                 DateTime        @default(now())
 
   email                     String
+  vertical                  String?          // requested vertical
+  businessShape             String?         @db.Text  // description of their business
   verticalFreetext          String?         @db.Text
   revenueBand               String?
   tools                     Json?           // array of tool names
   wouldPayUsd               Float?
+  status                    String          @default("new") // new | triaged | contacted | closed
 }
 
 // ─── Existing models (keep as-is) ─────────────────────────────────────────────
