@@ -4,28 +4,35 @@
 
 /*
  * VerticalPlaybook — Wave 2 design refresh 2026-05-08
- * Reference: tailscale (Cloud control panel on pristine paper)
- * Theme: light · spacious bright canvas with strong dark typography,
- * subtly elevated soft-shadow surfaces, single confident red accent
- * Token NAMES preserved (paper/paper-2/ink/graphite/rule/cinnabar/ochre/success)
- * for component-level continuity; values remapped to the tailscale palette.
- * Per user's no-beige rule, page canvas stays milky #FAFAF8 — we keep
- * the reference's typography, components, and shadow language but use
- * a slightly cooler off-white than the ref's Canvas Pale #EEEBEA.
+ * Wave 2 design fix 2026-06-02: warm-pink/beige wash removed from
+ * supporting tokens, cinnabar demoted to a documented micro-accent
+ * (wordmark plumb dot, "Recommended" plate rule, and small inline
+ * markers only). Primary CTAs are now ink/black (`var(--ink)` /
+ * `var(--graphite)`), not cinnabar fill. Token NAMES preserved
+ * (paper/paper-2/ink/graphite/rule/cinnabar/ochre/success) so existing
+ * components keep rendering; only VALUES and intended roles changed.
  */
 @layer base {
   :root {
-    --paper: #FAFAF8;          /* page canvas — milky white (no beige) */
-    --paper-2: #F7F5F4;        /* surface frost (alt section / nav) */
-    --ink: #181717;            /* graphite black — primary text */
-    --graphite: #2E2D2D;       /* storm gray — secondary body */
-    --graphite-2: #575555;     /* stone gray — tertiary helper text */
+    --paper: #FFFFFF;          /* page canvas — pure white, no beige */
+    --paper-2: #F4F4F3;        /* surface frost (alt section / nav) — cool neutral */
+    --ink: #0F0F0F;            /* graphite black — primary text + primary CTA fill */
+    --graphite: #2A2A2A;       /* storm gray — secondary body, CTA hover */
+    --graphite-2: #5B5B5B;     /* stone gray — tertiary helper text */
     --rule: #D5D3D2;           /* cloud mist — 1px hairline borders */
     --rule-2: #E8E5E3;         /* lighter rule — recessed dividers */
-    --cinnabar: #D04841;       /* action red — primary CTA, accent */
-    --cinnabar-deep: #A03A33;  /* darker action red (hover) */
-    --cinnabar-wash: #F8E6E5;  /* very light red wash — featured tier */
-    --ochre: #5A82DE;          /* action blue gradient start — secondary tactical highlight */
+    /* Cinnabar (Action Red) is now a documented micro-accent only.
+     * It is permitted on: the wordmark plumb dot, the "Recommended"
+     * plate-caption rule on the recommended pricing tier, and a small
+     * inline status marker. It is NOT used as a primary CTA fill —
+     * primary CTAs use --ink with --graphite hover. */
+    --cinnabar: #D04841;       /* action red — micro-accent (wordmark + accent rule only) */
+    --cinnabar-deep: #A03A33;  /* micro-accent hover (rare) */
+    /* --cinnabar-wash intentionally renamed visually to a neutral
+     * "alert wash" so the featured-tier surface and error banner read
+     * as a cool neutral alert, not warm pink. */
+    --cinnabar-wash: #F1F1F0;  /* neutral alert wash — featured tier + alert backgrounds */
+    --ochre: #5A82DE;          /* action blue — secondary tactical highlight (kept for hero blueprint dimension callouts) */
     --success: #2D7A4F;        /* kept — confirmation green */
   }
 
@@ -47,12 +54,12 @@
   }
 
   ::selection {
-    background: var(--cinnabar);
+    background: var(--ink);
     color: #FFFFFF;
   }
 
   *:focus-visible {
-    outline: 2px solid var(--cinnabar);
+    outline: 2px solid var(--ink);
     outline-offset: 2px;
   }
 

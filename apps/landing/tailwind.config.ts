@@ -2,15 +2,13 @@ import type { Config } from "tailwindcss";
 
 /*
  * VerticalPlaybook — Wave 2 design refresh 2026-05-08
- * Reference: tailscale (Cloud control panel on pristine paper)
- * Token NAMES preserved (paper/paper-2/ink/graphite/rule/cinnabar/ochre/success)
- * so existing components (BlueprintHero / VerticalGrid / BundleAnatomy /
- * Pricing / FAQ / SiteHeader / SiteFooter / Wordmark) keep rendering
- * unchanged. Only VALUES are remapped from the v1 paper-and-cinnabar
- * palette → tailscale's Cloud Control Panel palette: Action Red `#D04841`
- * accent, Graphite Black ink, Storm/Stone/Smoke grays, Cloud Mist rules.
- * Page canvas kept at milky `#FAFAF8` instead of the reference's warmer
- * Canvas Pale `#EEEBEA` per user's no-beige rule.
+ * Wave 2 design fix 2026-06-02: warm-pink/beige wash removed from
+ * supporting tokens (`paper`, `paper-2` go cool-neutral / pure white;
+ * `cinnabar-wash` becomes a neutral alert surface). Cinnabar/Action
+ * Red is demoted to a documented micro-accent only — primary CTAs now
+ * use ink/black fill. Token NAMES preserved (paper/paper-2/ink/
+ * graphite/rule/cinnabar/ochre/success) so existing components keep
+ * rendering; only VALUES and intended roles changed.
  */
 const config: Config = {
   content: [
@@ -21,17 +19,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#FAFAF8",          // page canvas (no beige)
-        "paper-2": "#F7F5F4",      // surface frost
-        ink: "#181717",            // graphite black
-        graphite: "#2E2D2D",       // storm gray
-        "graphite-2": "#575555",   // stone gray
+        paper: "#FFFFFF",          // page canvas (pure white, no warm tint)
+        "paper-2": "#F4F4F3",      // surface frost (cool neutral)
+        ink: "#0F0F0F",            // graphite black — primary CTA fill
+        graphite: "#2A2A2A",       // storm gray — secondary body + CTA hover
+        "graphite-2": "#5B5B5B",   // stone gray
         rule: "#D5D3D2",           // cloud mist (1px borders)
         "rule-2": "#E8E5E3",
-        cinnabar: "#D04841",       // action red — primary accent
+        cinnabar: "#D04841",       // action red — micro-accent only
         "cinnabar-deep": "#A03A33",
-        "cinnabar-wash": "#F8E6E5",
-        ochre: "#5A82DE",          // action blue gradient start (secondary highlight)
+        "cinnabar-wash": "#F1F1F0", // neutral alert wash (was warm pink)
+        ochre: "#5A82DE",          // action blue — secondary highlight (kept for hero blueprint)
         success: "#2D7A4F",
       },
       fontFamily: {

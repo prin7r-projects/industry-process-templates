@@ -10,12 +10,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        // Wave 2 design fix 2026-06-02: primary CTA switched from
+        // cinnabar/red fill to ink/black. Cinnabar is now a micro-accent
+        // only (wordmark plumb dot, "Recommended" plate rule, small
+        // inline markers). Hover step is graphite.
         primary:
-          "bg-cinnabar text-paper hover:bg-cinnabar-deep border border-cinnabar hover:border-cinnabar-deep",
+          "bg-ink text-paper hover:bg-graphite border border-ink hover:border-graphite",
         secondary:
           "bg-paper-2 text-ink hover:bg-paper border border-ink",
         ghost:
-          "bg-transparent text-ink hover:text-cinnabar",
+          "bg-transparent text-ink hover:text-graphite",
         outline:
           "bg-transparent text-ink hover:bg-paper-2 border border-rule hover:border-ink",
       },

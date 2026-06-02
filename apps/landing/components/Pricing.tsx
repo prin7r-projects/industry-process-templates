@@ -78,6 +78,10 @@ export function Pricing() {
           return (
             <div
               key={tier.id}
+              // Wave 2 design fix 2026-06-02: "Recommended" tier keeps
+              // a 2px cinnabar (micro-accent) border + ribbon to honor
+              // the documented micro-accent rule. The CTA fill is
+              // ink/black (see ui/button.tsx), not cinnabar.
               className={cn(
                 "relative bg-paper rounded-card p-7 lg:p-8 flex flex-col",
                 recommended ? "border-2 border-cinnabar md:scale-[1.02] shadow-plate" : "border border-rule",
@@ -107,7 +111,7 @@ export function Pricing() {
               <ul className="space-y-2.5 mb-7 border-t border-rule pt-5">
                 {tier.features.map((f) => (
                   <li key={f} className="flex gap-2 text-caption text-graphite leading-snug">
-                    <span className="text-cinnabar font-mono mt-0.5" aria-hidden="true">+</span>
+                    <span className="text-ink font-mono mt-0.5" aria-hidden="true">+</span>
                     <span>{f}</span>
                   </li>
                 ))}
