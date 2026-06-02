@@ -97,6 +97,26 @@ pnpm -F app bundle:build hvac-fall-startup
 
 ## Infrastructure (docker-compose)
 
+Canonical posture: **POST state is committed** for both `docker-compose.yml`
+and `apps/app/Dockerfile.app` (the Wave 2 Docker / deploy packaging landed
+via the `patches/wave2-docker-app-bundle-gate/` patch package). Operators
+do not need to run the apply script on a fresh clone.
+
+The patch is preserved under `patches/wave2-docker-app-bundle-gate/` as a
+defensive fallback: if a host is ever pinned to a `PRE`-patch revision
+(older compose + no `apps/app/Dockerfile.app`), the operator may run the
+idempotent applier to land the canonical POST state. The applier is
+safe to re-run; a second invocation against an already-patched tree is
+a no-op that exits 0.
+
+```bash
+# Optional fallback (not needed on a fresh clone of main):
+sh patches/wave2-docker-app-bundle-gate/apply.sh
+# Verify:
+git status --porcelain
+docker compose config --quiet && echo OK
+```
+
 ```bash
 docker compose up -d
 ```
