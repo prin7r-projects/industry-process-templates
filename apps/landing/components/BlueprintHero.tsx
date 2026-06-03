@@ -144,7 +144,7 @@ const steps: { head: string; body: string; callout?: string }[] = [
   },
   {
     head: "Capacitor µF reading",
-    body: "Replace if reading is &lt;6% of nameplate; document part SKU.",
+    body: "Replace if reading is <6% of nameplate; document part SKU.",
   },
   {
     head: "Drain line clear and pan flush",
