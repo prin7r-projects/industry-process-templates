@@ -15,17 +15,7 @@ import { createSignedDownloadToken } from "../license/operations";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type PaymentsContext = {
-  entities: {
-    User: any;
-    Order: any;
-    Bundle: any;
-    BundleVersion: any;
-    License: any;
-    Subscription: any;
-    RefundEvent: any;
-    VerticalRequest: any;
-    Vertical: any;
-  };
+  entities: Record<string, any>;
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -400,8 +390,35 @@ export async function createCheckout(req: any, res: any, context: PaymentsContex
       : "https://api.nowpayments.io/v1";
 
     if (!apiKey) {
-      // No NOWPayments configured — return a simulated checkout for dev
-      console.warn("[payments] NOWPAYMENTS_API_KEY not configured; returning simulated checkout");
+      // PRI-3730: refuse to return a simulated checkout URL in
+      // production. Letting a live buyer click a CTA that routes to
+      // `/checkout/simulated` (a dev-only landing) is the exact
+      // failure mode the QA reviewer flagged on the deployed
+      // verticalplaybook.prin7r-app.com origin. In production we
+      // surface a 503 + explicit contact fallback; in dev we keep
+      // the simulated flow so the local stack remains useful.
+      const isProduction = (process.env.NODE_ENV ?? "development") === "production";
+      if (isProduction) {
+        console.error(
+          "[payments] NOWPAYMENTS_API_KEY not configured in production; refusing simulated checkout",
+        );
+        return res.status(503).json({
+          data: null,
+          error: {
+            code: "configuration",
+            missing: "NOWPAYMENTS_API_KEY",
+            message:
+              "Online checkout is temporarily unavailable on this environment. Please email hello@verticalplaybook.com to complete this purchase.",
+          },
+        });
+      }
+
+      // Dev-only fallback — preserved so `wasp start` works without
+      // live NOWPayments creds. The URL is plainly labelled and
+      // mode=simulated so the dev client cannot mistake it for live.
+      console.warn(
+        "[payments] NOWPAYMENTS_API_KEY not configured; returning simulated checkout (dev-only)",
+      );
       return res.json({
         data: {
           checkoutUrl: `/checkout/simulated?orderId=${order.id}`,

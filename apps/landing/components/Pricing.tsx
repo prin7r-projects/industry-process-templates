@@ -8,7 +8,23 @@ import { cn } from "@/lib/utils";
 type CheckoutState = {
   loading: boolean;
   error?: string;
+  // PRI-3730: when checkout is not configured on the deployed env we
+  // surface a "contact us" mailto fallback so live buyers can still
+  // complete the purchase. We never route them through a simulated
+  // checkout flow.
+  contactFallback?: boolean;
 };
+
+// PRI-3730: the address operators send buyers to when checkout is
+// temporarily unavailable. Mirrored in the footer Contact column so
+// there is a single canonical inbox for the landing.
+const CONTACT_EMAIL = "hello@verticalplaybook.com";
+
+function contactMailto(tier: Tier): string {
+  const subject = `VerticalPlaybook ${tier.name} — manual checkout request`;
+  const body = `Hi VerticalPlaybook team,\n\nI'd like to buy the ${tier.name} (${tier.priceLabel}) but the online checkout returned an error. Please send a manual invoice.\n\nThanks,`;
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export function Pricing() {
   const [state, setState] = useState<Record<Tier["id"], CheckoutState>>({
@@ -29,16 +45,32 @@ export function Pricing() {
         ok: boolean;
         checkoutUrl?: string;
         message?: string;
+        error?: string;
       };
-      if (data.ok && data.checkoutUrl) {
+
+      // PRI-3730: only redirect to a checkoutUrl when the server tells
+      // us ok=true AND the URL is on the NOWPayments hosted-invoice
+      // origin. The server already enforces this — this is a defence
+      // in depth on the client so a buyer can never be sent to a
+      // /checkout/simulated URL.
+      const isLiveCheckoutUrl =
+        typeof data.checkoutUrl === "string" &&
+        /^https:\/\/(sandbox\.)?nowpayments\.io\//.test(data.checkoutUrl);
+
+      if (data.ok && isLiveCheckoutUrl && data.checkoutUrl) {
         window.location.assign(data.checkoutUrl);
         return;
       }
+
+      const isConfigError = data.error === "configuration" || response.status === 503;
       setState((prev) => ({
         ...prev,
         [tier.id]: {
           loading: false,
-          error: data.message ?? "Checkout couldn't start. Please try again or email hello@verticalplaybook.",
+          contactFallback: isConfigError,
+          error:
+            data.message ??
+            `Checkout couldn't start. Please email ${CONTACT_EMAIL} or try again in a moment.`,
         },
       }));
     } catch (e) {
@@ -46,7 +78,7 @@ export function Pricing() {
         ...prev,
         [tier.id]: {
           loading: false,
-          error: "Network error reaching checkout. Please try again.",
+          error: `Network error reaching checkout. Please email ${CONTACT_EMAIL} or try again.`,
         },
       }));
     }
@@ -132,9 +164,22 @@ export function Pricing() {
                   USDT / USDC + card on-ramp via NOWPayments
                 </p>
                 {s.error && (
-                  <p className="text-caption text-cinnabar bg-cinnabar-wash border border-cinnabar/30 rounded p-3" role="alert">
-                    {s.error}
-                  </p>
+                  <div
+                    className="text-caption text-cinnabar bg-cinnabar-wash border border-cinnabar/30 rounded p-3 space-y-2"
+                    role="alert"
+                  >
+                    <p>{s.error}</p>
+                    {s.contactFallback && (
+                      <p>
+                        <a
+                          href={contactMailto(tier)}
+                          className="underline font-medium text-ink hover:text-cinnabar"
+                        >
+                          Email {CONTACT_EMAIL} →
+                        </a>
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

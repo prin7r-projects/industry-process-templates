@@ -17,10 +17,12 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm text-graphite" aria-label="Primary">
-          <a href="#verticals" className="hover:text-ink transition-colors">Verticals</a>
-          <a href="#anatomy" className="hover:text-ink transition-colors">What's in a bundle</a>
-          <a href="#pricing" className="hover:text-ink transition-colors">Pricing</a>
-          <a href="#faq" className="hover:text-ink transition-colors">FAQ</a>
+          <Link href="/#verticals" className="hover:text-ink transition-colors">Verticals</Link>
+          <Link href="/#anatomy" className="hover:text-ink transition-colors">What&rsquo;s in a bundle</Link>
+          <Link href="/#pricing" className="hover:text-ink transition-colors">Pricing</Link>
+          <Link href="/#faq" className="hover:text-ink transition-colors">FAQ</Link>
+          {/* PRI-3730: visible contact link in primary nav */}
+          <Link href="/contact" className="hover:text-ink transition-colors">Contact</Link>
         </nav>
 
         <Button
@@ -28,7 +30,7 @@ export function SiteHeader() {
           size="sm"
           asChild
         >
-          <a href="#pricing">Buy a bundle</a>
+          <Link href="/#pricing">Buy a bundle</Link>
         </Button>
       </div>
     </header>

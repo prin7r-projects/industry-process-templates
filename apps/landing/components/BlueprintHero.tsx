@@ -4,7 +4,10 @@ import { Badge } from "./ui/badge";
 /**
  * The hero blueprint figure — a real SOP excerpt rendered as architectural drawing.
  * SOP source: HVAC bundle "Fall startup checklist — residential, 5-30 trucks"
- * Numbered steps, hairline rules, dimension callouts in ochre. Sharp 0px corners.
+ * Numbered steps, hairline rules, dimension callouts in graphite-2. Sharp 0px corners.
+ * Wave 2 design fix 2026-06-02: dimension callouts no longer use the
+ * (now-demoted) blue ochre token; they render in graphite-2 to honor
+ * the single documented micro-accent (cinnabar). See DESIGN.md.
  */
 export function BlueprintHero() {
   return (
@@ -37,11 +40,18 @@ export function BlueprintHero() {
           </div>
 
           <div className="flex items-center gap-3 text-caption text-graphite-2">
+            {/*
+              PRI-3730 2026-06-02 — badge copy cleaned up: previously
+              read "Live unpaid invoice verified" which exposed a dev
+              QA artifact to public buyers. Replaced with a clear,
+              non-promotional payment-rail statement matching the
+              copy under the pricing CTAs.
+            */}
             <Badge variant="verified">
               <span className="w-1.5 h-1.5 rounded-full bg-success" aria-hidden="true" />
-              Live unpaid invoice verified
+              Hosted checkout via NOWPayments
             </Badge>
-            <span>Checkout in &lt;30s · USDT / USDC / card on-ramp</span>
+            <span>USDT / USDC / card on-ramp · checkout in &lt;30s</span>
           </div>
         </div>
 
@@ -89,7 +99,7 @@ function SOPBlueprintFigure() {
                   <span className="text-graphite"> — {s.body}</span>
                 </p>
                 {s.callout && (
-                  <p className="mt-2 plate-caption text-ochre">
+                  <p className="mt-2 plate-caption text-graphite-2">
                     {s.callout}
                   </p>
                 )}

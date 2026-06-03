@@ -15,6 +15,20 @@ function tierFromId(id: string | undefined): Tier | undefined {
   return tiers.find((t) => t.id === id);
 }
 
+/**
+ * PRI-3730 production safety contract:
+ *
+ *   This route MUST NOT, under any code path, return a `checkoutUrl`
+ *   that points at a simulated / dev-only destination (e.g.
+ *   `/checkout/simulated`). When NOWPAYMENTS_API_KEY is absent the
+ *   handler returns an explicit `error: "configuration"` body with
+ *   HTTP 503 so the client renders a safe "contact us" fallback
+ *   instead of routing a live buyer through a fake checkout flow.
+ *
+ *   The Wave 3 app-side handler at
+ *   `apps/app/src/server/payments/operations.ts::createCheckout`
+ *   carries the same guard for `NODE_ENV === "production"`.
+ */
 export async function POST(request: Request) {
   let body: CheckoutBody = {};
   try {
@@ -93,6 +107,29 @@ export async function POST(request: Request) {
       );
     }
 
+    // PRI-3730 safety net: refuse any URL that resolves to a simulated /
+    // dev checkout path. NOWPayments' real hosted-invoice URLs live on
+    // `https://nowpayments.io/` (live) or `https://sandbox.nowpayments.io/`
+    // (sandbox); anything else is treated as misconfigured upstream and
+    // surfaced as a 502 so the client renders the "contact us" fallback
+    // instead of routing a live buyer through a fake flow.
+    const isAcceptableInvoiceUrl = /^https:\/\/(sandbox\.)?nowpayments\.io\//.test(invoiceUrl);
+    const looksSimulated = /\/checkout\/simulated/i.test(invoiceUrl);
+    if (looksSimulated || !isAcceptableInvoiceUrl) {
+      console.error(
+        `[VERTICALPLAYBOOK_CHECKOUT] refusing to redirect buyer to non-NOWPayments URL: ${invoiceUrl}`,
+      );
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "provider-shape",
+          message:
+            "Checkout provider returned an unexpected destination. Please email hello@verticalplaybook.com to complete this purchase.",
+        },
+        { status: 502 },
+      );
+    }
+
     return NextResponse.json({
       ok: true,
       orderId,
@@ -103,13 +140,16 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     if (error instanceof MissingEnvError) {
+      // PRI-3730: explicit configuration error so the client UI renders
+      // a "contact us" fallback. We never silently fall through to a
+      // simulated checkout URL on the production landing.
       return NextResponse.json(
         {
           ok: false,
           error: "configuration",
           missing: error.name,
           message:
-            "Checkout is not yet configured on this environment. The deployed environment populates the NOWPayments key on first deploy.",
+            "Online checkout is temporarily unavailable on this environment. Please email hello@verticalplaybook.com to complete this purchase.",
         },
         { status: 503 },
       );

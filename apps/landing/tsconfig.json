@@ -17,5 +17,6 @@
     "paths": { "@/*": ["./*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "//exclude": "PRI-3730: __tests__ and vitest config import from apps/app/src/server which depends on @prisma/client. That dependency is only installed inside apps/app (Wasp app), not in the landing bundle, so including them here breaks `next build` type-check. The tests still run under vitest via apps/landing/vitest.config.ts.",
+  "exclude": ["node_modules", "__tests__/**", "vitest.config.ts"]
 }

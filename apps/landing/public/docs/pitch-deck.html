@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VerticalPlaybook — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #FAFAF8;
+    --paper-2: #F2F1EC;
+    --ink: #1A1A18;
+    --graphite: #444441;
+    --graphite-2: #7A7975;
+    --rule: #D7D5CD;
+    --cinnabar: #C8472B;
+    --cinnabar-deep: #A53618;
+    --ochre: #B98B2E;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+  body {
+    padding: 0;
+  }
+  .deck {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(20px, 4vw, 64px);
+  }
+  .slide {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: clamp(40px, 6vw, 80px) clamp(28px, 5vw, 64px);
+    margin-bottom: 24px;
+    page-break-after: always;
+    position: relative;
+    min-height: 70vh;
+  }
+  .plate {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    margin-bottom: 16px;
+  }
+  .plate .num { color: var(--ink); }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+  }
+  h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.25;
+    margin: 16px 0 12px 0;
+  }
+  p, li {
+    color: var(--graphite);
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  p.lead {
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  ul, ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th, td {
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 12px;
+    text-align: left;
+    color: var(--graphite);
+  }
+  th {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--ink);
+  }
+  .accent { color: var(--cinnabar); }
+  .footer-line {
+    position: absolute;
+    bottom: 24px;
+    left: clamp(28px, 5vw, 64px);
+    right: clamp(28px, 5vw, 64px);
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav {
+    text-align: center;
+    padding: 24px 0;
+    color: var(--graphite-2);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .glyph {
+    display: inline-block;
+    width: 12px;
+    height: 32px;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  .glyph::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 0; bottom: 8px;
+    width: 1px; background: var(--ink);
+  }
+  .glyph::after {
+    content: '';
+    position: absolute;
+    left: 3px; bottom: 0;
+    width: 7px; height: 7px;
+    background: var(--cinnabar);
+    border-radius: 50%;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 56px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+  }
+  .wordmark .glyph { width: 14px; height: 56px; }
+  .wordmark .glyph::before { left: 7px; }
+  .wordmark .glyph::after { width: 9px; height: 9px; left: 3px; }
+  @media print {
+    body { background: white; }
+    .slide { border: none; min-height: 100vh; page-break-after: always; }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="nav">VerticalPlaybook · Pitch Deck · Wave 2 · 2026 · 10 plates</div>
+
+  <section class="slide">
+    <div class="plate">PLATE 01 — TITLE</div>
+    <span class="wordmark"><span class="glyph"></span>VerticalPlaybook</span>
+    <p class="lead" style="margin-top: 32px;">Operational architecture for the verticals that build the world.</p>
+    <p>A marketplace of vertical-specific operational bundles — SOPs, automations, n8n flows, prompt packs — calibrated by industry, deployable in a day.</p>
+    <div class="footer-line"><span>Prin7r · Wave 2</span><span>2026</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 02 — THE PROBLEM</div>
+    <h2>Operators in vertical businesses can't get to a coherent operating system.</h2>
+    <ul>
+      <li><strong>$250k full-time COO</strong> is too much.</li>
+      <li><strong>Fractional COO</strong> = 8 weeks of paid discovery + no artifact ownership.</li>
+      <li><strong>Notion templates pack</strong> = generic, not vertical, no automation glue.</li>
+      <li><strong>ChatGPT-generated SOPs</strong> = hallucinated specifics, no n8n flows, no version control.</li>
+      <li><strong>Build-it-yourself</strong> = 6 weeks of evenings that never finish.</li>
+    </ul>
+    <p style="margin-top: 24px;">The COO of a $14M HVAC business spends every Saturday morning thinking she should write down the operating system in her head. She doesn't. Three years pass.</p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>02 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 03 — THE INSIGHT</div>
+    <h2>Operations is shared work — but the market sells it as private work.</h2>
+    <p>Senior operators in HVAC know the same 28 SOPs matter. The same dispatch ratios. The same 9 n8n flows. The market today forces every operator to discover them privately.</p>
+    <p class="lead" style="margin-top: 32px;"><span class="accent">VerticalPlaybook's insight:</span> package the shared work as deployable artifacts, sell to the operators who would otherwise rebuild it from scratch.</p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>03 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 04 — THE PRODUCT</div>
+    <h2>VerticalPlaybook ships vertical-specific operational bundles.</h2>
+    <p>Each bundle includes:</p>
+    <ul>
+      <li><strong>24–32 SOPs</strong> (markdown, diffable)</li>
+      <li><strong>12–16 automations</strong> (Make / Zapier / webhook)</li>
+      <li><strong>9 n8n flows</strong> (JSON exports)</li>
+      <li><strong>3–5 prompt packs</strong> (versioned <code>.json</code>)</li>
+    </ul>
+    <p style="margin-top: 24px;">Each bundle is calibrated for one vertical. HVAC bundles are written by HVAC operators. Marketing-agency bundles by agency principals. Accounting-firm bundles by managing partners.</p>
+    <p style="margin-top: 8px;">Drop-in deployable. <span class="accent">First SOP running by Friday.</span></p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>04 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 05 — THE VERTICALS (LAUNCH 7)</div>
+    <h2>Seven verticals. Seven bundles.</h2>
+    <table>
+      <thead><tr><th>#</th><th>Vertical</th><th>Reference business size</th><th>Why this vertical</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>HVAC services</td><td>$2M–$25M residential, 5–30 trucks</td><td>Mature ops; ServiceTitan-friendly; ICP density</td></tr>
+        <tr><td>2</td><td>Dental practices</td><td>1–3 location group practices</td><td>High SOP density; recurring update need</td></tr>
+        <tr><td>3</td><td>Accounting firms</td><td>5–30 partner CPA firms</td><td>Regulatory cadence; year-end forcing function</td></tr>
+        <tr><td>4</td><td>DTC ecommerce</td><td>$5M–$50M Shopify-based</td><td>High automation surface; n8n flow density</td></tr>
+        <tr><td>5</td><td>Real-estate brokerage</td><td>$50M–$500M GCI residential</td><td>Compliance + transaction ops</td></tr>
+        <tr><td>6</td><td>SaaS support</td><td>50–200 person SaaS orgs</td><td>Tier-2 escalation playbooks; high reuse</td></tr>
+        <tr><td>7</td><td>Marketing agencies</td><td>10–50 person digital agencies</td><td>Productization play; agency-principal demand</td></tr>
+      </tbody>
+    </table>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>05 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 06 — THE BUSINESS MODEL</div>
+    <h2>Self-serve at the floor; sales-led at the ceiling.</h2>
+    <table>
+      <thead><tr><th>Tier</th><th>Price</th><th>Target buyer</th></tr></thead>
+      <tbody>
+        <tr><td>Single Bundle</td><td>$249</td><td>First-time evaluator</td></tr>
+        <tr><td>Vertical Pack</td><td>$1,490</td><td>Operator with conviction on one vertical</td></tr>
+        <tr><td>Enterprise</td><td>$9,800</td><td>Cross-vertical or holdco operator</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 24px;">Crypto checkout via NOWPayments (USDT/USDC + card on-ramp). 30-day refund. 12 months of bundle updates included.</p>
+    <p>Wave 3 adds: license management, customer dashboard, bundle download tokens via open-saas (Wasp).</p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>06 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 07 — DISTRIBUTION</div>
+    <h2>Peer-to-peer is the dominant channel; paid sponsorships seed it.</h2>
+    <ul>
+      <li><strong>35%</strong> — Vertical newsletter sponsorships (COOAlliance, Demand Curve, ACCA, Dental Economics)</li>
+      <li><strong>25%</strong> — Peer-referral asset library (3 free public sample SOPs as forwardable bait)</li>
+      <li><strong>15%</strong> — Agency-owner Slack/Discord retainer placements</li>
+      <li><strong>10%</strong> — Twitter/X organic (founder thread per week with bundle excerpt)</li>
+      <li><strong>5%</strong> — LinkedIn organic</li>
+      <li><strong>5%</strong> — Cold outbound (Apollo-sourced COO list)</li>
+      <li><strong>5%</strong> — Vertical conferences (Year 2+)</li>
+    </ul>
+    <p style="margin-top: 24px;"><span class="accent">Target: &gt;60% of buyers from non-paid channels by day-90.</span></p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>07 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 08 — UNIT ECONOMICS</div>
+    <h2>The numbers we're chasing.</h2>
+    <table>
+      <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>ASP</td><td>$903 (blended)</td></tr>
+        <tr><td>CVR (qualified traffic → purchase)</td><td>2–3%</td></tr>
+        <tr><td>CAC blended</td><td>&lt; $400</td></tr>
+        <tr><td>Quarterly update renewal</td><td>$190/yr</td></tr>
+        <tr><td>12-month update renewal</td><td>&gt; 80%</td></tr>
+        <tr><td>Refund rate</td><td>&lt; 8%</td></tr>
+        <tr><td>90-day cumulative net</td><td>$42,000</td></tr>
+      </tbody>
+    </table>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>08 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 09 — WHY NOW</div>
+    <h2>Three things lined up in 2026.</h2>
+    <ol>
+      <li><strong>Mature SaaS stacks.</strong> The 7 launch verticals all have stable automation glue points (ServiceTitan, Dentrix, QuickBooks, Shopify, ServiceTitan, Mews, etc.).</li>
+      <li><strong>n8n adoption crossed the chasm.</strong> Bundle artifacts are now portable across self-hosted, n8n.cloud, and managed runtimes.</li>
+      <li><strong>Vetted prompt packs are the new unit.</strong> LLM-augmented operations is real but requires curated packs, not free-form prompting — VerticalPlaybook ships the curated packs.</li>
+    </ol>
+    <p style="margin-top: 24px;">Mid-market COOs in 2026 are budget-allocated for "ops AI" but unable to evaluate it; VerticalPlaybook gives them a $1,490 entry point that produces visible output by Friday.</p>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>09 of 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="plate">PLATE 10 — ASK</div>
+    <h2>What ships now. What's next.</h2>
+    <h3>Wave 2 (this build)</h3>
+    <ul>
+      <li>Landing at <code>industry-process-templates.prin7r.com</code></li>
+      <li>7-vertical grid + 3-tier pricing</li>
+      <li>NOWPayments hosted-invoice checkout (live unpaid invoice verified)</li>
+      <li>DESIGN.md, 10-doc strategy library, repo at <code>github.com/prin7r-projects/industry-process-templates</code></li>
+    </ul>
+    <h3>Wave 3 (next)</h3>
+    <ul>
+      <li>Open-saas (Wasp) fork in <code>apps/app/</code> for license + dashboard</li>
+      <li>First 3 bundles authored to v1.0 (HVAC, marketing-agency, accounting-firm)</li>
+      <li>5 peer reviewers recruited and bundles in their hands</li>
+      <li>$4,000 first-month sponsorship budget</li>
+    </ul>
+    <h3>Wave 4 (compound)</h3>
+    <ul>
+      <li>4 additional verticals authored</li>
+      <li>$20,000/quarter sustained sponsorship + community spend</li>
+      <li>Operator-cohort funded for ongoing bundle authorship</li>
+    </ul>
+    <div class="footer-line"><span>VerticalPlaybook · Pitch</span><span>10 of 10 · END</span></div>
+  </section>
+
+  <div class="nav">END · VerticalPlaybook · 2026</div>
+</div>
+</body>
+</html>

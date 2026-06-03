@@ -12,28 +12,44 @@ export function SiteFooter() {
           <FooterColumn
             title="Verticals"
             items={[
-              { label: "HVAC services", href: "#verticals" },
-              { label: "Dental practices", href: "#verticals" },
-              { label: "Accounting firms", href: "#verticals" },
-              { label: "DTC ecommerce", href: "#verticals" },
-              { label: "Real-estate brokerage", href: "#verticals" },
-              { label: "SaaS support", href: "#verticals" },
-              { label: "Marketing agencies", href: "#verticals" },
+              { label: "HVAC services", href: "/#verticals" },
+              { label: "Dental practices", href: "/#verticals" },
+              { label: "Accounting firms", href: "/#verticals" },
+              { label: "DTC ecommerce", href: "/#verticals" },
+              { label: "Real-estate brokerage", href: "/#verticals" },
+              { label: "SaaS support", href: "/#verticals" },
+              { label: "Marketing agencies", href: "/#verticals" },
             ]}
           />
           <FooterColumn
             title="Product"
             items={[
-              { label: "Bundle anatomy", href: "#anatomy" },
-              { label: "Pricing", href: "#pricing" },
-              { label: "FAQ", href: "#faq" },
-              { label: "Sample SOPs", href: "#anatomy" },
+              { label: "Bundle anatomy", href: "/#anatomy" },
+              { label: "Pricing", href: "/#pricing" },
+              { label: "FAQ", href: "/#faq" },
+              { label: "Sample SOPs", href: "/#anatomy" },
             ]}
           />
           <FooterColumn
             title="Company"
             items={[
-              { label: "Pitch deck", href: "/docs/pitch-deck.html" },
+              /*
+               * PRI-3730 — visible contact path. Was missing entirely;
+               * buyers had no non-checkout way to reach the team.
+               */
+              { label: "Contact", href: "/contact" },
+              {
+                /*
+                 * PRI-3730 — pitch-deck.html previously 404'd in
+                 * production because the source file lived at
+                 * repo `docs/pitch-deck.html`, not in `apps/landing`'s
+                 * static `public/` tree. The build now copies the
+                 * file to `apps/landing/public/docs/pitch-deck.html`
+                 * so this href resolves at the deployed origin.
+                 */
+                label: "Pitch deck",
+                href: "/docs/pitch-deck.html",
+              },
               { label: "Repo", href: "https://github.com/prin7r-projects/industry-process-templates" },
               { label: "Notion opportunity", href: "https://www.notion.so/Industry-process-templates-3543ceec26198166b90ac8df25836629" },
             ]}
@@ -41,9 +57,15 @@ export function SiteFooter() {
           <FooterColumn
             title="Legal"
             items={[
-              { label: "License", href: "#" },
-              { label: "Refund policy", href: "#faq" },
-              { label: "Privacy", href: "#" },
+              /*
+               * PRI-3730 — License & Privacy were previously href="#"
+               * placeholders that scrolled to top with no content.
+               * They now point at real /legal/license and /legal/privacy
+               * pages added in the same patch.
+               */
+              { label: "License", href: "/legal/license" },
+              { label: "Refund policy", href: "/#faq" },
+              { label: "Privacy", href: "/legal/privacy" },
             ]}
           />
         </div>
